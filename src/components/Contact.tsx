@@ -12,18 +12,38 @@ export const Contact: React.FC = () => {
 
   const mailSubject = subject ? `[Contato Site] ${subject}` : `[Contato Site] Mensagem de ${name}`;
   const mailBody = `Nome: ${name}\nE-mail: ${email}\nAssunto: ${subject}\n\nMensagem:\n${message}`;
-  const mailtoUrl = `mailto:contato@dominikpublishing.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+  const mailtoUrl = `mailto:Lucianadomingosterapeuta@gmail.com?cc=contato@dominikpublishing.com&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+
+  const [testSentNotice, setTestSentNotice] = useState<string | null>(null);
+
+  const handleSendTestActivation = async () => {
+    setIsSubmitting(true);
+    setTestSentNotice(null);
+    try {
+      await fetch('https://formsubmit.co/ajax/Lucianadomingosterapeuta@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: '[Ativação FormSubmit] Teste de Recebimento de E-mail',
+          _cc: 'contato@dominikpublishing.com',
+          Mensagem: 'Este é um e-mail de teste para disparar o botão de ativação do FormSubmit para o e-mail Lucianadomingosterapeuta@gmail.com.'
+        })
+      });
+      setTestSentNotice('E-mail de teste disparado com sucesso! Por favor acesse seu Gmail (Lucianadomingosterapeuta@gmail.com) e procure pela mensagem do FormSubmit para clicar em "Activate Form".');
+    } catch (err) {
+      console.warn('Test activation error:', err);
+      setTestSentNotice('Disparado via navegador! Acesse Lucianadomingosterapeuta@gmail.com para verificar a chegada da mensagem.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Try opening mailto directly to pre-fill user's email client
-    try {
-      window.location.href = mailtoUrl;
-    } catch (err) {
-      console.warn('Mailto trigger:', err);
-    }
 
     // Send asynchronously to FormSubmit endpoint (Lucianadomingosterapeuta@gmail.com)
     try {
@@ -134,67 +154,29 @@ export const Contact: React.FC = () => {
           <div className="lg:col-span-7 bg-[#111111] p-8 sm:p-10 border border-[#222222] border-l-4 border-l-[#C5A059] relative">
             {sent ? (
               <div className="text-center py-10 space-y-5">
-                <div className="w-16 h-16 bg-[#C5A059]/20 border border-[#C5A059] text-[#C5A059] flex items-center justify-center mx-auto">
+                <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500 text-emerald-400 flex items-center justify-center mx-auto rounded-full">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <div>
                   <h3 className="font-serif italic text-3xl text-white mb-2">
-                    Solicitação Encaminhada!
+                    Mensagem Enviada com Sucesso!
                   </h3>
-                  <p className="text-sm text-white/70 font-light max-w-md mx-auto italic">
-                    Sua mensagem foi direcionada para o e-mail oficial:
-                  </p>
-                  <a
-                    href="mailto:contato@dominikpublishing.com"
-                    className="text-[#C5A059] font-bold text-sm tracking-wide block mt-1 hover:underline"
-                  >
-                    contato@dominikpublishing.com
-                  </a>
-                </div>
-
-                <div className="bg-[#181818] p-4 border border-[#C5A059]/40 text-left text-xs text-white/80 space-y-2">
-                  <p className="font-bold text-[#C5A059] uppercase tracking-wider text-[10px]">
-                    💡 IMPORTANTE SOBRE A RECEPÇÃO DOS E-MAILS:
-                  </p>
-                  <p className="leading-relaxed font-light">
-                    • <strong>Ativação FormSubmit:</strong> Se for o 1º teste enviado, acesse a caixa de entrada do e-mail <span className="text-[#C5A059] font-mono">Lucianadomingosterapeuta@gmail.com</span> (ou pasta Spam) e clique no botão vermelho <strong>"Activate Form"</strong> enviado pelo FormSubmit. Uma vez ativado, todas as mensagens chegarão direto ao seu Gmail!
-                  </p>
-                  <p className="leading-relaxed font-light">
-                    • <strong>WhatsApp Direto:</strong> Você também pode conversar instantaneamente no WhatsApp clicando no botão abaixo.
+                  <p className="text-sm text-white/70 font-light max-w-md mx-auto italic leading-relaxed">
+                    Sua mensagem foi transmitida para a equipe da Dominik Publishing. Retornaremos em breve no seu e-mail de contato.
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-[#222222] flex flex-col sm:flex-row items-center justify-center gap-3">
+                <div className="pt-6 border-t border-[#222222] flex flex-col sm:flex-row items-center justify-center gap-3">
                   <a
-                    href={mailtoUrl}
+                    href={`https://wa.me/5511915329483?text=${encodeURIComponent(`Olá! Acabei de enviar uma mensagem no site sobre: ${subject || 'Contato'}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-5 py-2.5 bg-white hover:bg-[#C5A059] text-black text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg"
                   >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                    <span>Abrir no Seu E-mail</span>
+                    <Phone className="w-4 h-4 text-white" />
+                    <span>Falar no WhatsApp Direct (+55 11 91532-9483)</span>
                   </a>
 
-                  <button
-                    onClick={handleCopyEmail}
-                    className="w-full sm:w-auto px-5 py-2.5 bg-[#181818] border border-[#C5A059]/60 hover:border-[#C5A059] text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
-                  >
-                    {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-[#C5A059]" />}
-                    <span>{copiedEmail ? 'E-mail Copiado!' : 'Copiar E-mail'}</span>
-                  </button>
-
-                  <a
-                    href={`https://wa.me/5511915329483?text=${encodeURIComponent(`Olá! Enviei uma mensagem no site sobre: ${subject || 'Contato'}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-5 py-2.5 bg-[#181818] border border-emerald-500/50 hover:border-emerald-400 text-emerald-400 text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
-                  >
-                    <Phone className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Confirmar via WhatsApp</span>
-                  </a>
-                </div>
-
-                <div className="text-center pt-2">
                   <button
                     onClick={() => {
                       setSent(false);
@@ -203,7 +185,7 @@ export const Contact: React.FC = () => {
                       setSubject('');
                       setMessage('');
                     }}
-                    className="text-xs text-white/50 hover:text-white underline font-mono uppercase tracking-wider"
+                    className="w-full sm:w-auto px-5 py-3 bg-[#181818] border border-[#222222] hover:border-[#C5A059] text-white text-xs font-bold uppercase tracking-wider transition-all"
                   >
                     Enviar Nova Mensagem
                   </button>
@@ -277,14 +259,16 @@ export const Contact: React.FC = () => {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4 bg-white text-black font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#C5A059] disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
-                >
-                  <Send className="w-4 h-4 text-black" />
-                  <span>{isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}</span>
-                </button>
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full py-4 bg-white text-black font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#C5A059] disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Send className="w-4 h-4 text-black" />
+                    <span>{isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}</span>
+                  </button>
+                </div>
               </form>
             )}
           </div>

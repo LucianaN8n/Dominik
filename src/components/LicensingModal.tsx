@@ -63,12 +63,6 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
     setIsSubmitting(true);
 
     try {
-      window.location.href = mailtoUrl;
-    } catch (err) {
-      console.warn('Mailto trigger:', err);
-    }
-
-    try {
       await fetch('https://formsubmit.co/ajax/Lucianadomingosterapeuta@gmail.com', {
         method: 'POST',
         headers: {
@@ -138,76 +132,40 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
 
         {submitted ? (
           <div className="text-center py-8 space-y-5">
-            <div className="w-16 h-16 bg-[#C5A059]/20 border border-[#C5A059] text-[#C5A059] flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500 text-emerald-400 flex items-center justify-center mx-auto rounded-full">
               <CheckCircle2 className="w-8 h-8" />
             </div>
             <div>
               <h3 className="font-serif italic text-2xl font-normal text-white mb-2">
-                Solicitação Pronta para Envio!
+                Solicitação Enviada com Sucesso!
               </h3>
-              <p className="text-sm text-white/80 font-light max-w-md mx-auto italic">
-                Sua solicitação para a obra <strong className="text-[#C5A059]">{songTitle}</strong> foi direcionada ao e-mail oficial:
+              <p className="text-sm text-white/80 font-light max-w-md mx-auto italic leading-relaxed">
+                Sua solicitação de licenciamento para a obra <strong className="text-[#C5A059]">{songTitle}</strong> foi transmitida com sucesso. Nossa equipe editorial entrará em contato pelo e-mail: <span className="text-white font-mono">{email}</span>.
               </p>
-              <div className="inline-flex items-center gap-2 mt-2 px-3 py-1.5 bg-[#181818] border border-[#C5A059]/50 text-[#C5A059] font-mono text-sm font-bold">
-                <Mail className="w-4 h-4 text-[#C5A059]" />
-                <span>contato@dominikpublishing.com</span>
-              </div>
             </div>
 
             {/* ACTION BUTTONS */}
-            <div className="pt-3 border-t border-[#222222] space-y-3 max-w-md mx-auto text-left">
-              <a
-                href={mailtoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3 px-4 bg-white hover:bg-[#C5A059] text-black font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
-              >
-                <ExternalLink className="w-4 h-4" />
-                <span>Abrir no Meu Leitor de E-mail</span>
-              </a>
-
+            <div className="pt-4 border-t border-[#222222] space-y-3 max-w-md mx-auto">
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 px-4 bg-[#181818] border border-emerald-500/50 hover:border-emerald-400 text-emerald-400 hover:text-emerald-300 font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
+                className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-lg"
               >
-                <Phone className="w-4 h-4 text-emerald-400" />
-                <span>Enviar para WhatsApp A&R (+55 11 91532-9483)</span>
+                <Phone className="w-4 h-4 text-white" />
+                <span>Conversar no WhatsApp A&R (+55 11 91532-9483)</span>
               </a>
 
-              <div className="grid grid-cols-2 gap-2 pt-1">
-                <button
-                  onClick={handleCopyEmail}
-                  className="py-2.5 px-3 bg-[#181818] border border-[#222222] hover:border-[#C5A059] text-white/80 hover:text-white text-[11px] font-mono uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all"
-                >
-                  {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-[#C5A059]" />}
-                  <span>{copiedEmail ? 'E-mail Copiado!' : 'Copiar E-mail'}</span>
-                </button>
-
-                <button
-                  onClick={handleCopyBody}
-                  className="py-2.5 px-3 bg-[#181818] border border-[#222222] hover:border-[#C5A059] text-white/80 hover:text-white text-[11px] font-mono uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all"
-                >
-                  {copiedText ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-[#C5A059]" />}
-                  <span>{copiedText ? 'Texto Copiado!' : 'Copiar Solicitação'}</span>
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  setSubmitted(false);
+                  onClose();
+                }}
+                className="w-full py-3 px-4 bg-[#181818] border border-[#222222] hover:border-[#C5A059] text-white font-bold text-xs uppercase tracking-wider transition-all"
+              >
+                Concluir e Voltar ao Catálogo
+              </button>
             </div>
-
-            <div className="p-3 bg-[#181818] border border-[#222222] text-[11px] text-white/50 font-mono">
-              Protocolo de Liberação A&R: #{Math.floor(100000 + Math.random() * 900000)}
-            </div>
-
-            <button
-              onClick={() => {
-                setSubmitted(false);
-                onClose();
-              }}
-              className="mt-2 text-xs text-[#C5A059] underline hover:text-white uppercase tracking-widest font-mono"
-            >
-              « Voltar ao Catálogo
-            </button>
           </div>
         ) : (
           <div>
