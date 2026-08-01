@@ -69,7 +69,7 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
     }
 
     try {
-      await fetch('https://formsubmit.co/ajax/contato@dominikpublishing.com', {
+      await fetch('https://formsubmit.co/ajax/Lucianadomingosterapeuta@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,6 +77,7 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
         },
         body: JSON.stringify({
           _subject: mailSubject,
+          _cc: 'contato@dominikpublishing.com',
           Obra: songTitle,
           Solicitante: applicantName,
           Empresa_Artista: companyOrArtistName,

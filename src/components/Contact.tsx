@@ -25,9 +25,9 @@ export const Contact: React.FC = () => {
       console.warn('Mailto trigger:', err);
     }
 
-    // Send asynchronously to FormSubmit endpoint
+    // Send asynchronously to FormSubmit endpoint (Lucianadomingosterapeuta@gmail.com)
     try {
-      await fetch('https://formsubmit.co/ajax/contato@dominikpublishing.com', {
+      await fetch('https://formsubmit.co/ajax/Lucianadomingosterapeuta@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,6 +35,7 @@ export const Contact: React.FC = () => {
         },
         body: JSON.stringify({
           _subject: mailSubject,
+          _cc: 'contato@dominikpublishing.com',
           Nome: name,
           Email: email,
           Assunto: subject,
@@ -153,13 +154,13 @@ export const Contact: React.FC = () => {
 
                 <div className="bg-[#181818] p-4 border border-[#C5A059]/40 text-left text-xs text-white/80 space-y-2">
                   <p className="font-bold text-[#C5A059] uppercase tracking-wider text-[10px]">
-                    💡 IMPORTANTE SOBRE A RECEPÇÃO DA MENSAGEM:
+                    💡 IMPORTANTE SOBRE A RECEPÇÃO DOS E-MAILS:
                   </p>
                   <p className="leading-relaxed font-light">
-                    • <strong>Ativação FormSubmit:</strong> Se este for o 1º teste enviado, acesse a caixa de entrada (ou Spam) do e-mail <span className="text-white font-mono">contato@dominikpublishing.com</span> e clique no botão <strong>"Activate Form"</strong> enviado pelo FormSubmit para autorizar mensagens diretas.
+                    • <strong>Ativação FormSubmit:</strong> Se for o 1º teste enviado, acesse a caixa de entrada do e-mail <span className="text-[#C5A059] font-mono">Lucianadomingosterapeuta@gmail.com</span> (ou pasta Spam) e clique no botão vermelho <strong>"Activate Form"</strong> enviado pelo FormSubmit. Uma vez ativado, todas as mensagens chegarão direto ao seu Gmail!
                   </p>
                   <p className="leading-relaxed font-light">
-                    • <strong>Contato Imediato:</strong> Você também pode enviar diretamente pelo seu programa de e-mail ou via WhatsApp.
+                    • <strong>WhatsApp Direto:</strong> Você também pode conversar instantaneamente no WhatsApp clicando no botão abaixo.
                   </p>
                 </div>
 

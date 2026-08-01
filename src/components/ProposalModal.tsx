@@ -48,7 +48,7 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
     }
 
     try {
-      await fetch('https://formsubmit.co/ajax/contato@dominikpublishing.com', {
+      await fetch('https://formsubmit.co/ajax/Lucianadomingosterapeuta@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,6 +56,7 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
         },
         body: JSON.stringify({
           _subject: mailSubject,
+          _cc: 'contato@dominikpublishing.com',
           Tipo_Proposta: proposalType,
           Nome: applicantName,
           Email: email,

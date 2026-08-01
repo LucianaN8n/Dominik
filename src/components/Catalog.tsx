@@ -13,6 +13,7 @@ interface CatalogProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   isAuthorMode?: boolean;
+  onAddNewSong?: () => void;
 }
 
 export const Catalog: React.FC<CatalogProps> = ({
@@ -24,15 +25,19 @@ export const Catalog: React.FC<CatalogProps> = ({
   onUpdateAudio,
   searchTerm,
   setSearchTerm,
-  isAuthorMode
+  isAuthorMode,
+  onAddNewSong
 }) => {
   const [selectedGenre, setSelectedGenre] = useState<string>('Todos');
   const [selectedMood, setSelectedMood] = useState<string>('Todos');
 
-  // Extract unique genres and moods
+  // Extract unique genres and moods cleanly
   const genres = useMemo(() => {
     const set = new Set<string>();
-    songs.forEach((s) => set.add(s.genre));
+    songs.forEach((s) => {
+      // Add individual genre components as well as full string
+      s.genre.split('/').forEach((g) => set.add(g.trim()));
+    });
     return ['Todos', ...Array.from(set)];
   }, [songs]);
 
@@ -82,12 +87,23 @@ export const Catalog: React.FC<CatalogProps> = ({
             </p>
           </div>
 
-          {/* TOTAL METRIC */}
-          <div className="mt-6 md:mt-0 bg-[#111111] px-6 py-4 border border-[#222222] border-l-2 border-l-[#C5A059] flex items-center gap-4">
-            <Sparkles className="w-5 h-5 text-[#C5A059]" />
-            <div>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 block">Disponíveis</span>
-              <span className="font-serif text-2xl text-white italic">{filteredSongs.length} Obras</span>
+          {/* TOTAL METRIC & AUTHOR ACTION */}
+          <div className="mt-6 md:mt-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            {isAuthorMode && onAddNewSong && (
+              <button
+                onClick={onAddNewSong}
+                className="bg-[#C5A059] hover:bg-white text-black font-extrabold text-xs uppercase tracking-[0.2em] px-5 py-3.5 flex items-center justify-center gap-2 transition-all shadow-xl"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Cadastrar Nova Obra</span>
+              </button>
+            )}
+            <div className="bg-[#111111] px-6 py-3.5 border border-[#222222] border-l-2 border-l-[#C5A059] flex items-center gap-4">
+              <Sparkles className="w-5 h-5 text-[#C5A059]" />
+              <div>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 block">Disponíveis</span>
+                <span className="font-serif text-2xl text-white italic">{filteredSongs.length} Obras</span>
+              </div>
             </div>
           </div>
         </div>

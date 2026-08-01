@@ -17,6 +17,7 @@ import { LicensingModal } from './components/LicensingModal';
 import { ProposalModal } from './components/ProposalModal';
 import { ProducerAreaModal } from './components/ProducerAreaModal';
 import { AuthorAuthModal } from './components/AuthorAuthModal';
+import { AddSongModal } from './components/AddSongModal';
 import { AudioPlayer } from './components/AudioPlayer';
 import { startDemoBeat, stopDemoBeat, setMasterVolume } from './utils/audioSynth';
 import {
@@ -26,7 +27,21 @@ import {
 } from './utils/audioStorage';
 
 export default function App() {
-  const [songs, setSongs] = useState<Song[]>(INITIAL_SONGS);
+  const [songs, setSongs] = useState<Song[]>(() => {
+    try {
+      const saved = localStorage.getItem('dominik_catalog_songs');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (err) {
+      console.error('Error reading custom catalog songs:', err);
+    }
+    return INITIAL_SONGS;
+  });
+
   const [activeSong, setActiveSong] = useState<Song | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(0.7);
@@ -42,9 +57,20 @@ export default function App() {
   const [isLicensingOpen, setIsLicensingOpen] = useState<boolean>(false);
   const [isProposalOpen, setIsProposalOpen] = useState<boolean>(false);
   const [isProducerAreaOpen, setIsProducerAreaOpen] = useState<boolean>(false);
+  const [isAddSongOpen, setIsAddSongOpen] = useState<boolean>(false);
+  const [editingSong, setEditingSong] = useState<Song | null>(null);
 
   // Search state
   const [searchTerm, setSearchTerm] = useState<string>('');
+
+  // Persist songs list whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem('dominik_catalog_songs', JSON.stringify(songs));
+    } catch (err) {
+      console.error('Error persisting songs catalog:', err);
+    }
+  }, [songs]);
 
   // Restore stored audio files & saved technical sheets from storage on startup
   useEffect(() => {
@@ -213,6 +239,25 @@ export default function App() {
     }
   };
 
+  const handleSaveNewSong = async (newSong: Song, audioFile?: File) => {
+    let songToAdd = { ...newSong };
+
+    if (audioFile) {
+      const saved = await saveCustomAudioToStorage(songToAdd.id, audioFile, audioFile.name);
+      songToAdd.audioUrl = saved.audioUrl;
+      songToAdd.customAudioName = saved.fileName;
+      songToAdd.hasCustomAudio = true;
+    }
+
+    setSongs(prev => {
+      const exists = prev.some(s => s.id === songToAdd.id);
+      if (exists) {
+        return prev.map(s => (s.id === songToAdd.id ? songToAdd : s));
+      }
+      return [songToAdd, ...prev];
+    });
+  };
+
   // Handle play / pause demo track
   const handlePlayDemo = (song: Song) => {
     if (activeSong?.id === song.id && isPlaying) {
@@ -300,6 +345,10 @@ export default function App() {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           isAuthorMode={isAuthorMode}
+          onAddNewSong={() => {
+            setEditingSong(null);
+            setIsAddSongOpen(true);
+          }}
         />
 
         <Composer />
@@ -384,6 +433,14 @@ export default function App() {
           setIsAuthorMode(enable);
           localStorage.setItem('luciana_author_mode', enable ? 'true' : 'false');
         }}
+      />
+
+      {/* ADD / EDIT SONG MODAL (MODO AUTORA) */}
+      <AddSongModal
+        isOpen={isAddSongOpen}
+        onClose={() => setIsAddSongOpen(false)}
+        onSaveSong={handleSaveNewSong}
+        initialSong={editingSong}
       />
     </div>
   );

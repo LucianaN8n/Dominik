@@ -172,29 +172,41 @@ export function startDemoBeat(demoType: string = 'Trap', bpm: number = 130, audi
   initAudioEngine();
 
   const ctx = getAudioContext();
+  if (ctx.state === 'suspended') {
+    ctx.resume().catch(() => {});
+  }
   activeLoopType = demoType;
 
   if (audioUrl) {
     try {
-      activeAudioElement = new Audio(audioUrl);
-      activeAudioElement.volume = masterGain ? masterGain.gain.value : 0.7;
-      activeAudioElement.loop = true;
+      const audio = new Audio(audioUrl);
+      activeAudioElement = audio;
+      audio.volume = masterGain ? masterGain.gain.value : 0.7;
+      audio.loop = true;
 
-      const handleAudioError = () => {
-        if (activeAudioElement) {
+      const handleAudioError = (err?: unknown) => {
+        console.warn('Real audio load/play issue, falling back to synth beat:', err);
+        if (activeAudioElement === audio) {
           activeAudioElement.pause();
           activeAudioElement = null;
         }
         runProceduralBeat(demoType, bpm);
       };
 
-      activeAudioElement.onerror = handleAudioError;
+      audio.onerror = () => handleAudioError('audio onerror event');
 
-      activeAudioElement.play().catch(() => {
-        handleAudioError();
+      audio.play().then(() => {
+        // Audio is playing successfully!
+      }).catch((playErr) => {
+        // Autoplay or user gesture required: attempt resume and play once more
+        ctx.resume().then(() => {
+          return audio.play();
+        }).catch(() => {
+          handleAudioError(playErr);
+        });
       });
       return;
-    } catch {
+    } catch (err) {
       runProceduralBeat(demoType, bpm);
       return;
     }
