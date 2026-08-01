@@ -31,8 +31,10 @@ export const Catalog: React.FC<CatalogProps> = ({
 
   // Extract unique genres and moods
   const genres = useMemo(() => {
-    return ['Todos', 'Trap', 'Trap Soul', 'Dark Trap', 'Hip Hop'];
-  }, []);
+    const set = new Set<string>();
+    songs.forEach((s) => set.add(s.genre));
+    return ['Todos', ...Array.from(set)];
+  }, [songs]);
 
   const moods = useMemo(() => {
     const set = new Set<string>();

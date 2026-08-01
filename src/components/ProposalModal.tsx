@@ -40,6 +40,13 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    try {
+      window.location.href = mailtoUrl;
+    } catch (err) {
+      console.warn('Mailto trigger:', err);
+    }
+
     try {
       await fetch('https://formsubmit.co/ajax/contato@dominikpublishing.com', {
         method: 'POST',
@@ -57,11 +64,9 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
           Link_Demo: demoLink,
           Resumo_Proposta: projectSummary
         })
-      }).catch((err) => console.warn('FormSubmit AJAX warning:', err));
-
-      window.open(mailtoUrl, '_blank');
+      });
     } catch (err) {
-      console.warn('Mailto fallback:', err);
+      console.warn('FormSubmit AJAX error:', err);
     } finally {
       setIsSubmitting(false);
       setSubmitted(true);

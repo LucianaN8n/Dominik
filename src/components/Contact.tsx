@@ -17,6 +17,15 @@ export const Contact: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // Try opening mailto directly to pre-fill user's email client
+    try {
+      window.location.href = mailtoUrl;
+    } catch (err) {
+      console.warn('Mailto trigger:', err);
+    }
+
+    // Send asynchronously to FormSubmit endpoint
     try {
       await fetch('https://formsubmit.co/ajax/contato@dominikpublishing.com', {
         method: 'POST',
@@ -31,11 +40,9 @@ export const Contact: React.FC = () => {
           Assunto: subject,
           Mensagem: message
         })
-      }).catch((err) => console.warn('FormSubmit AJAX warning:', err));
-
-      window.open(mailtoUrl, '_blank');
+      });
     } catch (err) {
-      console.warn('Mailto fallback:', err);
+      console.warn('FormSubmit AJAX error:', err);
     } finally {
       setIsSubmitting(false);
       setSent(true);
@@ -142,6 +149,18 @@ export const Contact: React.FC = () => {
                   >
                     contato@dominikpublishing.com
                   </a>
+                </div>
+
+                <div className="bg-[#181818] p-4 border border-[#C5A059]/40 text-left text-xs text-white/80 space-y-2">
+                  <p className="font-bold text-[#C5A059] uppercase tracking-wider text-[10px]">
+                    💡 IMPORTANTE SOBRE A RECEPÇÃO DA MENSAGEM:
+                  </p>
+                  <p className="leading-relaxed font-light">
+                    • <strong>Ativação FormSubmit:</strong> Se este for o 1º teste enviado, acesse a caixa de entrada (ou Spam) do e-mail <span className="text-white font-mono">contato@dominikpublishing.com</span> e clique no botão <strong>"Activate Form"</strong> enviado pelo FormSubmit para autorizar mensagens diretas.
+                  </p>
+                  <p className="leading-relaxed font-light">
+                    • <strong>Contato Imediato:</strong> Você também pode enviar diretamente pelo seu programa de e-mail ou via WhatsApp.
+                  </p>
                 </div>
 
                 <div className="pt-4 border-t border-[#222222] flex flex-col sm:flex-row items-center justify-center gap-3">
