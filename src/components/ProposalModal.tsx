@@ -38,7 +38,7 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
     setIsSubmitting(true);
 
     try {
-      await fetch('https://formsubmit.co/ajax/Lucianadomingosterapeuta@gmail.com', {
+      await fetch('https://formsubmit.co/ajax/lucsdomingos@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
                 Proposta Enviada com Sucesso!
               </h3>
               <p className="text-sm text-white/80 font-light max-w-md mx-auto italic leading-relaxed">
-                Sua proposta de <strong className="text-[#C5A059]">{proposalType}</strong> foi transmitida para a equipe de A&R da Dominik Publishing. Retornaremos em breve no seu e-mail: <span className="text-white font-mono">{email}</span>.
+                Sua proposta de <strong className="text-[#C5A059]">{proposalType}</strong> foi transmitida para a equipe de A&R da Dominik Publishing. Responderemos diretamente para o seu e-mail de contato: <span className="text-white font-mono font-bold">{email}</span>.
               </p>
             </div>
 

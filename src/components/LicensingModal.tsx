@@ -58,7 +58,7 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
     setIsSubmitting(true);
 
     try {
-      await fetch('https://formsubmit.co/ajax/Lucianadomingosterapeuta@gmail.com', {
+      await fetch('https://formsubmit.co/ajax/lucsdomingos@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
                 Solicitação Enviada com Sucesso!
               </h3>
               <p className="text-sm text-white/80 font-light max-w-md mx-auto italic leading-relaxed">
-                Sua solicitação de licenciamento para a obra <strong className="text-[#C5A059]">{songTitle}</strong> foi transmitida com sucesso. Nossa equipe editorial entrará em contato pelo e-mail: <span className="text-white font-mono">{email}</span>.
+                Sua solicitação de licenciamento para a obra <strong className="text-[#C5A059]">{songTitle}</strong> foi enviada com sucesso para a Dominik Publishing. Nossa equipe editorial entrará em contato com você através do seu e-mail: <span className="text-white font-mono font-bold">{email}</span>.
               </p>
             </div>
 

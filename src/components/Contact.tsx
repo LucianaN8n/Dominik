@@ -18,7 +18,7 @@ export const Contact: React.FC = () => {
     setIsSubmitting(true);
     setTestSentNotice(null);
     try {
-      await fetch('https://formsubmit.co/ajax/Lucianadomingosterapeuta@gmail.com', {
+      await fetch('https://formsubmit.co/ajax/lucsdomingos@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,13 +27,13 @@ export const Contact: React.FC = () => {
         body: JSON.stringify({
           _subject: '[Ativação FormSubmit] Teste de Recebimento de E-mail',
           _cc: 'contato@dominikpublishing.com',
-          Mensagem: 'Este é um e-mail de teste para disparar o botão de ativação do FormSubmit para o e-mail Lucianadomingosterapeuta@gmail.com.'
+          Mensagem: 'Este é um e-mail de teste para disparar o botão de ativação do FormSubmit para o e-mail lucsdomingos@gmail.com.'
         })
       });
-      setTestSentNotice('E-mail de teste disparado com sucesso! Por favor acesse seu Gmail (Lucianadomingosterapeuta@gmail.com) e procure pela mensagem do FormSubmit para clicar em "Activate Form".');
+      setTestSentNotice('E-mail de teste disparado com sucesso! Por favor acesse seu Gmail (lucsdomingos@gmail.com) e procure pela mensagem do FormSubmit para clicar em "Activate Form".');
     } catch (err) {
       console.warn('Test activation error:', err);
-      setTestSentNotice('Disparado via navegador! Acesse Lucianadomingosterapeuta@gmail.com para verificar a chegada da mensagem.');
+      setTestSentNotice('Disparado via navegador! Acesse lucsdomingos@gmail.com para verificar a chegada da mensagem.');
     } finally {
       setIsSubmitting(false);
     }
@@ -43,9 +43,9 @@ export const Contact: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Send asynchronously to FormSubmit endpoint (Lucianadomingosterapeuta@gmail.com)
+    // Send asynchronously to FormSubmit endpoint (lucsdomingos@gmail.com)
     try {
-      await fetch('https://formsubmit.co/ajax/Lucianadomingosterapeuta@gmail.com', {
+      await fetch('https://formsubmit.co/ajax/lucsdomingos@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -185,7 +185,7 @@ export const Contact: React.FC = () => {
                     Mensagem Enviada com Sucesso!
                   </h3>
                   <p className="text-sm text-white/70 font-light max-w-md mx-auto italic leading-relaxed">
-                    Sua mensagem foi transmitida para a equipe da Dominik Publishing. Retornaremos em breve no seu e-mail de contato.
+                    Sua mensagem foi transmitida com sucesso para a Dominik Publishing. Responderemos diretamente para o seu e-mail de contato: <span className="text-white font-mono font-bold">{email}</span>.
                   </p>
                 </div>
 
