@@ -16,8 +16,6 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
   const [projectSummary, setProjectSummary] = useState('');
   const [demoLink, setDemoLink] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [copiedEmail, setCopiedEmail] = useState(false);
-  const [copiedText, setCopiedText] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -33,8 +31,6 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
   if (!isOpen) return null;
 
   const mailSubject = `[Proposta Comercial] ${proposalType} - ${applicantName}`;
-  const mailBody = `SUBMISSÃO DE PROPOSTA - DOMINIK PUBLISHING\n\nTipo: ${proposalType}\nNome: ${applicantName}\nE-mail: ${email}\nTelefone/WhatsApp: ${phone}\nArtistas Alvo: ${targetArtists}\nLink Demo: ${demoLink}\n\nResumo da Proposta:\n${projectSummary}`;
-  const mailtoUrl = `mailto:contato@dominikpublishing.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
   const whatsappUrl = `https://wa.me/5511915329483?text=${encodeURIComponent(`Olá! Enviei uma proposta comercial no site (${proposalType}).\nNome: ${applicantName}\nE-mail: ${email}`)}`;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -66,18 +62,6 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
       setIsSubmitting(false);
       setSubmitted(true);
     }
-  };
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText('contato@dominikpublishing.com');
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 3000);
-  };
-
-  const handleCopyBody = () => {
-    navigator.clipboard.writeText(mailBody);
-    setCopiedText(true);
-    setTimeout(() => setCopiedText(false), 3000);
   };
 
   return (

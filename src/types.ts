@@ -7,6 +7,7 @@ export interface SongTechnicalSheet {
   performers?: string;
   publishers?: string;
   isrcCode?: string;
+  upcCode?: string;
   iswcCode?: string;
   edaRegistration?: string;
   releaseYear?: string;

@@ -11,8 +11,6 @@ export const Contact: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const mailSubject = subject ? `[Contato Site] ${subject}` : `[Contato Site] Mensagem de ${name}`;
-  const mailBody = `Nome: ${name}\nE-mail: ${email}\nAssunto: ${subject}\n\nMensagem:\n${message}`;
-  const mailtoUrl = `mailto:Lucianadomingosterapeuta@gmail.com?cc=contato@dominikpublishing.com&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
 
   const [testSentNotice, setTestSentNotice] = useState<string | null>(null);
 
@@ -80,9 +78,9 @@ export const Contact: React.FC = () => {
     {
       title: 'E-mail Comercial',
       value: 'contato@dominikpublishing.com',
-      link: 'mailto:contato@dominikpublishing.com',
+      isCopy: true,
       icon: Mail,
-      subtext: 'Tempo médio de resposta: 4 horas'
+      subtext: 'Clique para copiar o e-mail oficial'
     },
     {
       title: 'WhatsApp Direct (A&R Line)',
@@ -123,6 +121,31 @@ export const Contact: React.FC = () => {
           <div className="lg:col-span-5 space-y-4">
             {contactChannels.map((channel, idx) => {
               const Icon = channel.icon;
+              if (channel.isCopy) {
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={handleCopyEmail}
+                    className="w-full text-left bg-[#111111] p-6 border border-[#222222] border-l-2 border-l-[#C5A059] hover:border-[#C5A059] transition-all duration-300 flex items-center gap-4 group cursor-pointer"
+                  >
+                    <div className="w-12 h-12 bg-[#181818] border border-[#222222] flex items-center justify-center shrink-0 group-hover:border-[#C5A059] transition-colors">
+                      {copiedEmail ? <Check className="w-6 h-6 text-emerald-400" /> : <Icon className="w-6 h-6 text-[#C5A059]" />}
+                    </div>
+                    <div>
+                      <span className="text-[9px] uppercase tracking-[0.25em] text-white/40 block">
+                        {channel.title}
+                      </span>
+                      <span className="font-serif italic text-lg font-normal text-white group-hover:text-[#C5A059] transition-colors block mt-0.5">
+                        {copiedEmail ? 'E-mail Copiado!' : channel.value}
+                      </span>
+                      <span className="text-[11px] text-[#C5A059] font-light block mt-1 italic">
+                        {copiedEmail ? 'Endereço copiado para a área de transferência!' : channel.subtext}
+                      </span>
+                    </div>
+                  </button>
+                );
+              }
               return (
                 <a
                   key={idx}

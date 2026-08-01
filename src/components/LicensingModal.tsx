@@ -26,8 +26,6 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
   const [budgetRange, setBudgetRange] = useState('Sob Consulta');
   const [additionalNotes, setAdditionalNotes] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [copiedEmail, setCopiedEmail] = useState(false);
-  const [copiedText, setCopiedText] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -52,9 +50,6 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
   const songTitle = currentSong?.title || 'Obra';
 
   const mailSubject = `[Solicitação de Licenciamento] Obra: ${songTitle} - ${companyOrArtistName || applicantName}`;
-  const mailBody = `SOLICITAÇÃO DE LICENCIAMENTO - DOMINIK PUBLISHING\n\nObra: ${songTitle}\nSolicitante: ${applicantName}\nEmpresa / Artista: ${companyOrArtistName}\nTipo de Entidade: ${entityType}\nEscopo: ${licenseScope}\nE-mail: ${email}\nTelefone/WhatsApp: ${phone}\n\nDescrição do Projeto:\n${intendedProject}`;
-  const mailtoUrl = `mailto:contato@dominikpublishing.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
-
   const whatsappMessage = `Olá, Dominik Publishing! Enviei uma solicitação de licenciamento no site para a obra "${songTitle}".\nSolicitante: ${applicantName} (${companyOrArtistName || 'Independente'})\nE-mail: ${email}`;
   const whatsappUrl = `https://wa.me/5511915329483?text=${encodeURIComponent(whatsappMessage)}`;
 
@@ -88,18 +83,6 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
       setIsSubmitting(false);
       setSubmitted(true);
     }
-  };
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText('contato@dominikpublishing.com');
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 3000);
-  };
-
-  const handleCopyBody = () => {
-    navigator.clipboard.writeText(mailBody);
-    setCopiedText(true);
-    setTimeout(() => setCopiedText(false), 3000);
   };
 
   return (

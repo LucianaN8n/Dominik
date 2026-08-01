@@ -37,6 +37,7 @@ export const TechnicalSheetModal: React.FC<TechnicalSheetModalProps> = ({
         performers: song.technicalSheet?.performers || song.artist || 'Dominik',
         publishers: song.technicalSheet?.publishers || 'Dominik Records Publishing / UBC',
         isrcCode: song.technicalSheet?.isrcCode || `BR-DMK-26-${song.id.slice(0, 5).toUpperCase()}`,
+        upcCode: song.technicalSheet?.upcCode || `789${song.id.slice(0, 6).replace(/\D/g, '0').padEnd(9, '1')}`,
         iswcCode: song.technicalSheet?.iswcCode || song.iswcCode || 'T-312.894.100-0',
         edaRegistration: song.technicalSheet?.edaRegistration || 'Reg. EDA / Biblioteca Nacional',
         releaseYear: song.technicalSheet?.releaseYear || '2026',
@@ -102,6 +103,9 @@ export const TechnicalSheetModal: React.FC<TechnicalSheetModalProps> = ({
   ✔ Direitos autorais protegidos internacionalmente
   ✔ Registro de autoria
   ✔ Disponível para licenciamento
+• Código ISRC: ${formData.isrcCode || 'N/A'}
+• Código UPC / EAN: ${formData.upcCode || 'N/A'}
+• Código ISWC: ${formData.iswcCode || 'N/A'}
 • Registro EDA / Bib. Nacional: ${formData.edaRegistration}
 • Ano de Registro / Lançamento: ${formData.releaseYear}
 • Andamento (BPM) & Tom: ${formData.bpm} BPM | ${formData.key}
@@ -362,6 +366,45 @@ Dominik Records • Todos os Direitos Reservados
 
                 <div>
                   <label className="text-[10px] font-bold uppercase tracking-wider text-[#C5A059] block mb-1">
+                    Código ISRC (International Standard Recording Code)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.isrcCode || ''}
+                    onChange={(e) => handleInputChange('isrcCode', e.target.value)}
+                    className="w-full bg-[#181818] border border-[#222222] text-emerald-400 font-mono font-bold text-xs p-3 focus:border-[#C5A059] focus:outline-none"
+                    placeholder="Ex: BR-DMK-26-00001"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-[#C5A059] block mb-1">
+                    Código UPC / EAN (Universal Product Code)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.upcCode || ''}
+                    onChange={(e) => handleInputChange('upcCode', e.target.value)}
+                    className="w-full bg-[#181818] border border-[#222222] text-[#C5A059] font-mono font-bold text-xs p-3 focus:border-[#C5A059] focus:outline-none"
+                    placeholder="Ex: 7891234567890"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-[#C5A059] block mb-1">
+                    Código ISWC (International Standard Musical Work Code)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.iswcCode || ''}
+                    onChange={(e) => handleInputChange('iswcCode', e.target.value)}
+                    className="w-full bg-[#181818] border border-[#222222] text-amber-400 font-mono text-xs p-3 focus:border-[#C5A059] focus:outline-none"
+                    placeholder="Ex: T-312.894.100-0"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-[#C5A059] block mb-1">
                     Registro EDA / Biblioteca Nacional
                   </label>
                   <input
@@ -547,6 +590,27 @@ Dominik Records • Todos os Direitos Reservados
                       <span>✔</span> Disponível para licenciamento
                     </div>
                   </div>
+                </div>
+
+                <div className="bg-[#181818] p-5 border border-emerald-500/40">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400 block mb-1">
+                    Código ISRC
+                  </span>
+                  <p className="text-xs font-mono font-bold text-emerald-300">{formData.isrcCode || 'N/A'}</p>
+                </div>
+
+                <div className="bg-[#181818] p-5 border border-[#C5A059]/40">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C5A059] block mb-1">
+                    Código UPC / EAN
+                  </span>
+                  <p className="text-xs font-mono font-bold text-[#C5A059]">{formData.upcCode || 'N/A'}</p>
+                </div>
+
+                <div className="bg-[#181818] p-5 border border-[#222222]">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 block mb-1">
+                    Código ISWC
+                  </span>
+                  <p className="text-xs font-mono text-amber-300">{formData.iswcCode || 'N/A'}</p>
                 </div>
 
                 <div className="bg-[#181818] p-5 border border-[#222222]">
