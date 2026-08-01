@@ -46,6 +46,7 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
         },
         body: JSON.stringify({
           _subject: mailSubject,
+          _captcha: 'false',
           _cc: 'contato@dominikpublishing.com',
           Tipo_Proposta: proposalType,
           Nome: applicantName,

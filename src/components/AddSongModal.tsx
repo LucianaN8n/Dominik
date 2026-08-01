@@ -25,7 +25,9 @@ export const AddSongModal: React.FC<AddSongModalProps> = ({
   const [history, setHistory] = useState(initialSong?.history || '');
   const [concept, setConcept] = useState(initialSong?.concept || '');
   const [lyricsSnippet, setLyricsSnippet] = useState(initialSong?.lyricsSnippet || '');
-  const [iswcCode, setIswcCode] = useState(initialSong?.iswcCode || 'T-312.894.100-0');
+  const [isrcCode, setIsrcCode] = useState(initialSong?.isrcCode || initialSong?.technicalSheet?.isrcCode || '');
+  const [upcCode, setUpcCode] = useState(initialSong?.upcCode || initialSong?.technicalSheet?.upcCode || '');
+  const [iswcCode, setIswcCode] = useState(initialSong?.iswcCode || initialSong?.technicalSheet?.iswcCode || 'T-312.894.100-0');
   const [demoType, setDemoType] = useState<'Trap' | 'TrapSoul' | 'DarkTrap' | 'HipHop'>(initialSong?.demoType || 'TrapSoul');
 
   const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -68,6 +70,8 @@ export const AddSongModal: React.FC<AddSongModalProps> = ({
       lyricsSnippet: lyricsSnippet.trim() || 'Letra disponível sob consulta.',
       registrationStatus: 'Registro da Obra: Biblioteca Nacional (EDA) | Dominik Publishing',
       iswcCode: iswcCode.trim(),
+      isrcCode: isrcCode.trim() || `BR-DMK-26-${newSongId.slice(0, 5).toUpperCase()}`,
+      upcCode: upcCode.trim() || `789${newSongId.slice(0, 6).replace(/\D/g, '0').padEnd(9, '1')}`,
       featured: true,
       demoType,
       customAudioName: audioFileName || initialSong?.customAudioName,
@@ -81,7 +85,10 @@ export const AddSongModal: React.FC<AddSongModalProps> = ({
         releaseYear: '2026',
         genreDetails: genre.trim(),
         bpm: Number(bpm) || 128,
-        key: key.trim()
+        key: key.trim(),
+        iswcCode: iswcCode.trim(),
+        isrcCode: isrcCode.trim() || `BR-DMK-26-${newSongId.slice(0, 5).toUpperCase()}`,
+        upcCode: upcCode.trim() || `789${newSongId.slice(0, 6).replace(/\D/g, '0').padEnd(9, '1')}`
       }
     };
 
@@ -184,6 +191,47 @@ export const AddSongModal: React.FC<AddSongModalProps> = ({
                 value={key}
                 onChange={(e) => setKey(e.target.value)}
                 className="w-full bg-[#181818] border border-[#222222] text-white p-2.5 focus:border-[#C5A059] focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-3 bg-black/40 border border-[#222222] rounded-sm">
+            <div>
+              <label className="block text-[10px] uppercase font-bold tracking-wider text-emerald-400 mb-1">
+                Código ISRC
+              </label>
+              <input
+                type="text"
+                placeholder="Ex: BR-DMK-26-00001"
+                value={isrcCode}
+                onChange={(e) => setIsrcCode(e.target.value)}
+                className="w-full bg-[#181818] border border-[#222222] text-emerald-400 font-mono font-bold p-2.5 focus:border-[#C5A059] focus:outline-none text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[10px] uppercase font-bold tracking-wider text-[#C5A059] mb-1">
+                Código UPC / EAN
+              </label>
+              <input
+                type="text"
+                placeholder="Ex: 7891234567890"
+                value={upcCode}
+                onChange={(e) => setUpcCode(e.target.value)}
+                className="w-full bg-[#181818] border border-[#222222] text-[#C5A059] font-mono font-bold p-2.5 focus:border-[#C5A059] focus:outline-none text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[10px] uppercase font-bold tracking-wider text-amber-400 mb-1">
+                Código ISWC
+              </label>
+              <input
+                type="text"
+                placeholder="Ex: T-312.894.100-0"
+                value={iswcCode}
+                onChange={(e) => setIswcCode(e.target.value)}
+                className="w-full bg-[#181818] border border-[#222222] text-amber-400 font-mono p-2.5 focus:border-[#C5A059] focus:outline-none text-xs"
               />
             </div>
           </div>

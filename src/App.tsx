@@ -99,6 +99,8 @@ export default function App() {
             updated.technicalSheet = storedSheet;
             if (storedSheet.composer) updated.composer = storedSheet.composer;
             if (storedSheet.iswcCode) updated.iswcCode = storedSheet.iswcCode;
+            if (storedSheet.isrcCode) updated.isrcCode = storedSheet.isrcCode;
+            if (storedSheet.upcCode) updated.upcCode = storedSheet.upcCode;
           }
 
           return updated;
@@ -115,7 +117,9 @@ export default function App() {
             ...s,
             technicalSheet: sheet,
             composer: sheet.composer || s.composer,
-            iswcCode: sheet.iswcCode || s.iswcCode
+            iswcCode: sheet.iswcCode || s.iswcCode,
+            isrcCode: sheet.isrcCode || s.isrcCode,
+            upcCode: sheet.upcCode || s.upcCode
           };
         }
         return s;

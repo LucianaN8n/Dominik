@@ -133,10 +133,10 @@ export const SongModal: React.FC<SongModalProps> = ({
                   {song.bpm} BPM • {song.key}
                 </span>
                 <span className="bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 text-[10px] font-mono font-bold px-3 py-1">
-                  ISRC: {song.technicalSheet?.isrcCode || `BR-DMK-26-${song.id.slice(0, 5).toUpperCase()}`}
+                  ISRC: {song.technicalSheet?.isrcCode || song.isrcCode || `BR-DMK-26-${song.id.slice(0, 5).toUpperCase()}`}
                 </span>
                 <span className="bg-[#181818] border border-[#C5A059]/50 text-[#C5A059] text-[10px] font-mono font-bold px-3 py-1">
-                  UPC: {song.technicalSheet?.upcCode || `789${song.id.slice(0, 6).replace(/\D/g, '0').padEnd(9, '1')}`}
+                  UPC: {song.technicalSheet?.upcCode || song.upcCode || `789${song.id.slice(0, 6).replace(/\D/g, '0').padEnd(9, '1')}`}
                 </span>
               </div>
               <h2 className="font-serif italic text-3xl sm:text-5xl font-normal text-white">

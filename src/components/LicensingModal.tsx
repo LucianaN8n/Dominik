@@ -66,6 +66,7 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
         },
         body: JSON.stringify({
           _subject: mailSubject,
+          _captcha: 'false',
           _cc: 'contato@dominikpublishing.com',
           Obra: songTitle,
           Solicitante: applicantName,

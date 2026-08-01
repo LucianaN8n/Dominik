@@ -40,6 +40,8 @@ export interface Song {
   lyricsSnippet: string;
   registrationStatus: string;
   iswcCode?: string;
+  isrcCode?: string;
+  upcCode?: string;
   featured?: boolean;
   audioFrequencyProfile?: number[];
   demoType?: 'Trap' | 'TrapSoul' | 'DarkTrap' | 'HipHop';

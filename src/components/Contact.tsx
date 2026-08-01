@@ -53,6 +53,7 @@ export const Contact: React.FC = () => {
         },
         body: JSON.stringify({
           _subject: mailSubject,
+          _captcha: 'false',
           _cc: 'contato@dominikpublishing.com',
           Nome: name,
           Email: email,
