@@ -33,7 +33,27 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
+          // Merge with INITIAL_SONGS so newly updated fields in source code are always preserved
+          const merged = INITIAL_SONGS.map(initSong => {
+            const found = parsed.find((p: Song) => p.id === initSong.id);
+            if (!found) return initSong;
+            return {
+              ...found,
+              ...initSong,
+              isrcCode: initSong.isrcCode || found.isrcCode,
+              upcCode: initSong.upcCode || found.upcCode,
+              iswcCode: initSong.iswcCode || found.iswcCode,
+              technicalSheet: {
+                ...found.technicalSheet,
+                ...initSong.technicalSheet,
+                isrcCode: initSong.technicalSheet?.isrcCode || found.technicalSheet?.isrcCode,
+                upcCode: initSong.technicalSheet?.upcCode || found.technicalSheet?.upcCode,
+                iswcCode: initSong.technicalSheet?.iswcCode || found.technicalSheet?.iswcCode,
+              }
+            };
+          });
+          const customAdded = parsed.filter((p: Song) => !INITIAL_SONGS.some(i => i.id === p.id));
+          return [...merged, ...customAdded];
         }
       }
     } catch (err) {
@@ -96,11 +116,17 @@ export default function App() {
           }
 
           if (storedSheet) {
-            updated.technicalSheet = storedSheet;
-            if (storedSheet.composer) updated.composer = storedSheet.composer;
-            if (storedSheet.iswcCode) updated.iswcCode = storedSheet.iswcCode;
-            if (storedSheet.isrcCode) updated.isrcCode = storedSheet.isrcCode;
-            if (storedSheet.upcCode) updated.upcCode = storedSheet.upcCode;
+            updated.technicalSheet = {
+              ...storedSheet,
+              ...s.technicalSheet,
+              isrcCode: s.technicalSheet?.isrcCode || storedSheet.isrcCode,
+              upcCode: s.technicalSheet?.upcCode || storedSheet.upcCode,
+              iswcCode: s.technicalSheet?.iswcCode || storedSheet.iswcCode,
+            };
+            updated.composer = s.composer || storedSheet.composer;
+            updated.iswcCode = s.iswcCode || storedSheet.iswcCode;
+            updated.isrcCode = s.isrcCode || storedSheet.isrcCode;
+            updated.upcCode = s.upcCode || storedSheet.upcCode;
           }
 
           return updated;
