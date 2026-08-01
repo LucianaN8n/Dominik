@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #0a0a0a;
+    color: #F5F5F5;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-cinzel {
+    font-family: 'Cinzel', serif;
+  }
+
+  .font-serif {
+    font-family: 'Cormorant Garamond', serif;
+  }
+}
+
+/* Custom Geometric Balance Color & Aesthetic Utilities */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFF0C2 0%, #C5A059 50%, #8C6F35 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gold-light {
+  color: #C5A059;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #E5C158 0%, #C5A059 50%, #A37F38 100%);
+}
+
+.bg-gold-subtle {
+  background: rgba(197, 160, 89, 0.08);
+}
+
+.border-gold {
+  border-color: rgba(197, 160, 89, 0.35);
+}
+
+.border-gold-hover:hover {
+  border-color: #C5A059;
+  box-shadow: 0 0 20px rgba(197, 160, 89, 0.15);
+}
+
+.gold-glow {
+  box-shadow: 0 0 30px rgba(197, 160, 89, 0.2);
+}
+
+.gold-glow-sm {
+  box-shadow: 0 0 15px rgba(197, 160, 89, 0.12);
+}
+
+/* Geometric Balance Card & Layer Styling */
+.bg-matte-card {
+  background-color: #111111;
+  border: 1px solid #222222;
+}
+
+.bg-matte-dark {
+  background-color: #0a0a0a;
+}
+
+.border-geo {
+  border-color: #222222;
+}
+
+.border-geo-gold {
+  border-color: #C5A059;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222222;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C5A059;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Dominik Publishing",
+  "description": "Editora Musical Independente Premium - Composições Autorais para Grandes Artistas, Gravadoras e Projetos Audiovisuais",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
