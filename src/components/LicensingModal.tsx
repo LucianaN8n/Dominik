@@ -28,6 +28,13 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
   const [submitted, setSubmitted] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedText, setCopiedText] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (isOpen && selectedSong) {
+      setSongId(selectedSong.id);
+    }
+  }, [isOpen, selectedSong]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -51,14 +58,36 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
   const whatsappMessage = `Olá, Dominik Publishing! Enviei uma solicitação de licenciamento no site para a obra "${songTitle}".\nSolicitante: ${applicantName} (${companyOrArtistName || 'Independente'})\nE-mail: ${email}`;
   const whatsappUrl = `https://wa.me/5511915329483?text=${encodeURIComponent(whatsappMessage)}`;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
+      await fetch('https://formsubmit.co/ajax/contato@dominikpublishing.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: mailSubject,
+          Obra: songTitle,
+          Solicitante: applicantName,
+          Empresa_Artista: companyOrArtistName,
+          Tipo_Entidade: entityType,
+          Escopo_Licenca: licenseScope,
+          Email: email,
+          Telefone_WhatsApp: phone,
+          Descricao_Projeto: intendedProject
+        })
+      }).catch((err) => console.warn('FormSubmit AJAX warning:', err));
+
       window.open(mailtoUrl, '_blank');
     } catch (err) {
       console.warn('Mailto fallback:', err);
+    } finally {
+      setIsSubmitting(false);
+      setSubmitted(true);
     }
-    setSubmitted(true);
   };
 
   const handleCopyEmail = () => {

@@ -36,9 +36,12 @@ export function initAudioEngine() {
 }
 
 export function setMasterVolume(volume: number) {
+  const clamped = Math.max(0, Math.min(1, volume));
   if (masterGain && audioCtx) {
-    const clamped = Math.max(0, Math.min(1, volume));
     masterGain.gain.setTargetAtTime(clamped, audioCtx.currentTime, 0.05);
+  }
+  if (activeAudioElement) {
+    activeAudioElement.volume = clamped;
   }
 }
 
@@ -176,13 +179,24 @@ export function startDemoBeat(demoType: string = 'Trap', bpm: number = 130, audi
       activeAudioElement = new Audio(audioUrl);
       activeAudioElement.volume = masterGain ? masterGain.gain.value : 0.7;
       activeAudioElement.loop = true;
-      activeAudioElement.play().catch(() => {
-        // Fallback to procedural synth if audio playback is blocked or fails
+
+      const handleAudioError = () => {
+        if (activeAudioElement) {
+          activeAudioElement.pause();
+          activeAudioElement = null;
+        }
         runProceduralBeat(demoType, bpm);
+      };
+
+      activeAudioElement.onerror = handleAudioError;
+
+      activeAudioElement.play().catch(() => {
+        handleAudioError();
       });
       return;
     } catch {
-      // Fallback
+      runProceduralBeat(demoType, bpm);
+      return;
     }
   }
 

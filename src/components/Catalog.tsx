@@ -31,9 +31,8 @@ export const Catalog: React.FC<CatalogProps> = ({
 
   // Extract unique genres and moods
   const genres = useMemo(() => {
-    const list = ['Todos', ...Array.from(new Set(songs.map((s) => s.genre)))];
-    return list;
-  }, [songs]);
+    return ['Todos', 'Trap', 'Trap Soul', 'Dark Trap', 'Hip Hop'];
+  }, []);
 
   const moods = useMemo(() => {
     const set = new Set<string>();
@@ -44,14 +43,20 @@ export const Catalog: React.FC<CatalogProps> = ({
   // Filter songs
   const filteredSongs = useMemo(() => {
     return songs.filter((song) => {
+      const query = searchTerm.toLowerCase().trim();
       const matchesSearch =
-        searchTerm === '' ||
-        song.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        song.genre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        song.suggestedArtists.some((a) => a.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        song.mood.some((m) => m.toLowerCase().includes(searchTerm.toLowerCase()));
+        query === '' ||
+        song.title.toLowerCase().includes(query) ||
+        song.genre.toLowerCase().includes(query) ||
+        song.composer.toLowerCase().includes(query) ||
+        (song.artist && song.artist.toLowerCase().includes(query)) ||
+        song.suggestedArtists.some((a) => a.toLowerCase().includes(query)) ||
+        song.mood.some((m) => m.toLowerCase().includes(query));
 
-      const matchesGenre = selectedGenre === 'Todos' || song.genre === selectedGenre;
+      const matchesGenre =
+        selectedGenre === 'Todos' ||
+        song.genre.toLowerCase().includes(selectedGenre.toLowerCase());
+
       const matchesMood = selectedMood === 'Todos' || song.mood.includes(selectedMood);
 
       return matchesSearch && matchesGenre && matchesMood;

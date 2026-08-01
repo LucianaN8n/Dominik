@@ -18,6 +18,7 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
   const [submitted, setSubmitted] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedText, setCopiedText] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -36,14 +37,35 @@ export const ProposalModal: React.FC<ProposalModalProps> = ({ isOpen, onClose })
   const mailtoUrl = `mailto:contato@dominikpublishing.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
   const whatsappUrl = `https://wa.me/5511915329483?text=${encodeURIComponent(`Olá! Enviei uma proposta comercial no site (${proposalType}).\nNome: ${applicantName}\nE-mail: ${email}`)}`;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
+      await fetch('https://formsubmit.co/ajax/contato@dominikpublishing.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: mailSubject,
+          Tipo_Proposta: proposalType,
+          Nome: applicantName,
+          Email: email,
+          Telefone_WhatsApp: phone,
+          Artistas_Alvo: targetArtists,
+          Link_Demo: demoLink,
+          Resumo_Proposta: projectSummary
+        })
+      }).catch((err) => console.warn('FormSubmit AJAX warning:', err));
+
       window.open(mailtoUrl, '_blank');
     } catch (err) {
       console.warn('Mailto fallback:', err);
+    } finally {
+      setIsSubmitting(false);
+      setSubmitted(true);
     }
-    setSubmitted(true);
   };
 
   const handleCopyEmail = () => {

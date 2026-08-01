@@ -8,19 +8,38 @@ export const Contact: React.FC = () => {
   const [message, setMessage] = useState('');
   const [sent, setSent] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const mailSubject = subject ? `[Contato Site] ${subject}` : `[Contato Site] Mensagem de ${name}`;
   const mailBody = `Nome: ${name}\nE-mail: ${email}\nAssunto: ${subject}\n\nMensagem:\n${message}`;
   const mailtoUrl = `mailto:contato@dominikpublishing.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
+      await fetch('https://formsubmit.co/ajax/contato@dominikpublishing.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: mailSubject,
+          Nome: name,
+          Email: email,
+          Assunto: subject,
+          Mensagem: message
+        })
+      }).catch((err) => console.warn('FormSubmit AJAX warning:', err));
+
       window.open(mailtoUrl, '_blank');
     } catch (err) {
       console.warn('Mailto fallback:', err);
+    } finally {
+      setIsSubmitting(false);
+      setSent(true);
     }
-    setSent(true);
   };
 
   const handleCopyEmail = () => {
@@ -240,10 +259,11 @@ export const Contact: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="w-full py-4 bg-white text-black font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#C5A059] transition-colors flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                  className="w-full py-4 bg-white text-black font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#C5A059] disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4 text-black" />
-                  <span>Enviar Mensagem</span>
+                  <span>{isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}</span>
                 </button>
               </form>
             )}

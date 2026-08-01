@@ -123,7 +123,7 @@ export const SongCard: React.FC<SongCardProps> = ({
         </div>
 
         {/* BUTTONS: OUVIR, ANEXAR ÁUDIO, FICHA TÉCNICA, DETALHES */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-2 border-t border-[#222222]">
+        <div className={`grid gap-1.5 pt-2 border-t border-[#222222] ${isAuthorMode ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3'}`}>
           <button
             onClick={() => onPlayDemo(song)}
             className={`py-2 px-1 border text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-all ${
