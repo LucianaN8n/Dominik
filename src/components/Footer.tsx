@@ -11,31 +11,54 @@ export const Footer: React.FC = () => {
   return (
     <footer className="bg-[#0a0a0a] text-white/50 py-16 border-t border-[#222222] pb-28 md:pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-12 border-b border-[#222222]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#222222] items-start">
           
           {/* BRAND */}
-          <div className="flex items-center gap-4 text-center md:text-left">
-            <div className="w-12 h-12 border border-[#C5A059] flex items-center justify-center bg-[#111111]">
+          <div className="md:col-span-5 flex items-start gap-4 text-left">
+            <div className="w-12 h-12 border border-[#C5A059] flex items-center justify-center bg-[#111111] shrink-0">
               <Disc3 className="w-6 h-6 text-[#C5A059]" />
             </div>
             <div>
               <span className="font-serif italic text-xl font-normal tracking-wide text-white block">
                 DOMINIK PUBLISHING
               </span>
-              <p className="text-[10px] text-[#C5A059] uppercase tracking-[0.2em] font-bold mt-0.5">
-                Composições Originais para Grandes Artistas
+              <p className="text-[10px] text-[#C5A059] uppercase tracking-[0.2em] font-bold mt-1">
+                Composições Originais & Licenciamento
               </p>
             </div>
           </div>
 
+          {/* QUICK LINKS */}
+          <div className="md:col-span-6 grid grid-cols-2 gap-4 text-xs">
+            <div>
+              <span className="text-white/40 uppercase tracking-widest text-[10px] font-bold block mb-3">Navegação</span>
+              <ul className="space-y-2">
+                <li><a href="#home" className="text-white/70 hover:text-[#C5A059] transition-colors">Início</a></li>
+                <li><a href="#catalogo" className="text-white/70 hover:text-[#C5A059] transition-colors">Catálogo Musical</a></li>
+                <li><a href="#sobre" className="text-white/70 hover:text-[#C5A059] transition-colors">Sobre a Editora</a></li>
+                <li><a href="#compositora" className="text-white/70 hover:text-[#C5A059] transition-colors">A Compositora</a></li>
+              </ul>
+            </div>
+            <div>
+              <span className="text-white/40 uppercase tracking-widest text-[10px] font-bold block mb-3">Serviços & Mídia</span>
+              <ul className="space-y-2">
+                <li><a href="#parceiros" className="text-white/70 hover:text-[#C5A059] transition-colors">Para Artistas & Produtoras</a></li>
+                <li><a href="#protecao-juridica" className="text-white/70 hover:text-[#C5A059] transition-colors">Proteção Jurídica & Guia</a></li>
+                <li><a href="#contato" className="text-white/70 hover:text-[#C5A059] transition-colors">Contato Direct</a></li>
+              </ul>
+            </div>
+          </div>
+
           {/* BACK TO TOP BUTTON */}
-          <button
-            onClick={scrollToTop}
-            className="p-3 border border-[#222222] bg-[#111111] hover:border-[#C5A059] text-white/70 hover:text-white transition-all group"
-            title="Voltar ao Topo"
-          >
-            <ArrowUp className="w-5 h-5 text-[#C5A059] group-hover:-translate-y-1 transition-transform" />
-          </button>
+          <div className="md:col-span-1 flex md:justify-end">
+            <button
+              onClick={scrollToTop}
+              className="p-3 border border-[#222222] bg-[#111111] hover:border-[#C5A059] text-white/70 hover:text-white transition-all group"
+              title="Voltar ao Topo"
+            >
+              <ArrowUp className="w-5 h-5 text-[#C5A059] group-hover:-translate-y-1 transition-transform" />
+            </button>
+          </div>
         </div>
 
         {/* BOTTOM LEGAL & COPYRIGHT */}
@@ -81,7 +104,7 @@ export const Footer: React.FC = () => {
                 </h3>
                 <div className="text-xs text-white/70 font-light leading-relaxed space-y-3 max-h-96 overflow-y-auto pr-2">
                   <p>
-                    A Dominik Publishing está comprometida com a proteção e confidencialidade dos dados de seus parceiros, artistas, gravadoras e usuários.
+                    A Dominik Publishing está comprometida com a proteção e confidencialidade dos dados de seus parceiros, artistas, produtoras e usuários.
                   </p>
                   <p>
                     <strong>1. Coleta de Dados:</strong> Os dados fornecidos através dos formulários de solicitação de licenciamento e submissão de propostas são utilizados estritamente para avaliação autoral e emissão de minutas contratuais.
@@ -108,7 +131,7 @@ export const Footer: React.FC = () => {
                     <strong>1. Propriedade Intelectual:</strong> Todas as letras, áudios demonstrativos, títulos, arranjos e imagens de capa exibidos neste site são obras intelectuais protegidas. É estritamente proibida a reprodução, cópia, amostragem (sample) ou comercialização não autorizada.
                   </p>
                   <p>
-                    <strong>2. Demos e Guias:</strong> O player de demonstração tem caráter estritamente promocional e informativo para audição de repertório por gravadoras, artistas e supervisores musicais.
+                    <strong>2. Demos e Guias:</strong> O player de demonstração tem caráter estritamente promocional e informativo para audição de repertório por produtoras, selos, artistas e supervisores musicais.
                   </p>
                   <p>
                     <strong>3. Licenciamento:</strong> A utilização comercial das obras requer a assinatura prévia de instrumento contratual de cessão de direitos fonográficos/autorais.

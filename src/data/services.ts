@@ -11,7 +11,7 @@ export const PUBLISHING_SERVICES: ServiceItem[] = [
   {
     id: 'licenciamento-musical',
     title: 'Licenciamento Musical',
-    description: 'Cessão de direitos de uso e execução de músicas autorais para artistas, gravadoras, cinema, publicidade e streaming.',
+    description: 'Cessão de direitos de uso e execução de músicas autorais para artistas, produtoras, cinema, publicidade e streaming.',
     details: 'Processo ágil e transparente com contratos padronizados de licenciamento exclusivo ou não-exclusivo, respaldados por registros na Biblioteca Nacional (EDA).',
     iconName: 'ShieldCheck'
   },
@@ -19,7 +19,7 @@ export const PUBLISHING_SERVICES: ServiceItem[] = [
     id: 'musicas-exclusivas',
     title: 'Músicas Exclusivas',
     description: 'Obras de alto impacto reservadas para cessão de Direitos Patrimoniais de forma 100% exclusiva para grandes álbuns e projetos de liderança.',
-    details: 'Garantia total de que a obra nunca foi e nunca será disponibilizada para outros intérpretes, assegurando um ativo único no portfólio da gravadora.',
+    details: 'Garantia total de que a obra nunca foi e nunca será disponibilizada para outros intérpretes, assegurando um ativo único no portfólio do projeto.',
     iconName: 'Crown'
   },
   {
@@ -30,9 +30,9 @@ export const PUBLISHING_SERVICES: ServiceItem[] = [
     iconName: 'Disc'
   },
   {
-    id: 'parcerias-com-gravadoras',
-    title: 'Parcerias com Gravadoras',
-    description: 'Co-publishing, co-criação e desenvolvimento contínuo de repertório para o casting de grandes gravadoras e selos independentes.',
+    id: 'parcerias-com-produtoras',
+    title: 'Parcerias com Produtoras & Selos',
+    description: 'Co-publishing, co-criação e desenvolvimento contínuo de repertório para o casting de selos independentes e produtoras.',
     details: 'Modelos flexíveis de cooperação artística com divisão clara de percentuais, garantindo fluxo constante de músicas de alto padrão.',
     iconName: 'Building2'
   },

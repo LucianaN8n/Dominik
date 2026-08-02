@@ -10,7 +10,6 @@ import { TechnicalSheetModal } from './components/TechnicalSheetModal';
 import { Composer } from './components/Composer';
 import { ForLabels } from './components/ForLabels';
 import { LegalProtection } from './components/LegalProtection';
-import { PressKit } from './components/PressKit';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { LicensingModal } from './components/LicensingModal';
@@ -354,14 +353,6 @@ export default function App() {
         onOpenTechnicalSheet={() => setTechnicalSheetSong(songs.find(s => s.code === 'DP-001') || songs[0])}
         isAuthorMode={isAuthorMode}
         onOpenAuthorAuth={() => setIsAuthorAuthOpen(true)}
-        onOpenPressKit={() => {
-          setSelectedSongModal(null);
-          setIsLicensingOpen(false);
-          setIsProposalOpen(false);
-          setIsProducerAreaOpen(false);
-          const el = document.getElementById('presskit');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         onCloseAllModals={() => {
@@ -402,8 +393,6 @@ export default function App() {
         />
 
         <LegalProtection />
-
-        <PressKit />
 
         <Contact />
       </main>

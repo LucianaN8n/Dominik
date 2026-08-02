@@ -5,7 +5,7 @@ interface HeaderProps {
   onOpenLicensing: () => void;
   onOpenProposal: () => void;
   onOpenProducerArea: () => void;
-  onOpenPressKit: () => void;
+  onOpenPressKit?: () => void;
   onOpenTechnicalSheet?: () => void;
   isAuthorMode?: boolean;
   onOpenAuthorAuth?: () => void;
@@ -40,13 +40,15 @@ export const Header: React.FC<HeaderProps> = ({
 
   const navLinks = [
     { label: 'Início', href: '#home' },
-    { label: 'Sobre', href: '#sobre' },
     { label: 'Catálogo', href: '#catalogo' },
+    { label: 'Sobre', href: '#sobre' },
     { label: 'Compositora', href: '#compositora' },
-    { label: 'Para Gravadoras', href: '#gravadoras' },
-    { label: 'Proteção Jurídica', href: '#protecao-juridica' },
-    { label: 'Press Kit', href: '#presskit' },
     { label: 'Contato', href: '#contato' },
+  ];
+
+  const secondaryNavLinks = [
+    { label: 'Para Artistas & Produtoras', href: '#parceiros' },
+    { label: 'Proteção Jurídica', href: '#protecao-juridica' },
   ];
 
   return (
@@ -206,11 +208,26 @@ export const Header: React.FC<HeaderProps> = ({
                   setMobileMenuOpen(false);
                   onCloseAllModals?.();
                 }}
-                className="text-sm font-medium uppercase tracking-wider text-neutral-300 hover:text-[#D4AF37] transition-colors py-1"
+                className="text-sm font-medium uppercase tracking-wider text-white hover:text-[#C5A059] transition-colors py-1"
               >
                 {link.label}
               </a>
             ))}
+            <div className="border-t border-neutral-800 my-2 pt-2 space-y-2">
+              {secondaryNavLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onCloseAllModals?.();
+                  }}
+                  className="text-xs uppercase tracking-wider text-white/60 hover:text-[#C5A059] transition-colors py-1 block"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
           </div>
           <div className="pt-4 border-t border-neutral-800 flex flex-col gap-2">
             <button

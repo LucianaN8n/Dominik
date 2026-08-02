@@ -38,7 +38,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
             Serviços Especializados
           </h2>
           <p className="text-white/50 text-sm sm:text-base font-light italic">
-            Atendemos artistas, gravadoras, produtoras e executivos da indústria com excelência artística e rigor contratual.
+            Atendemos artistas, produtoras, selos e executivos da indústria com excelência artística e rigor contratual.
           </p>
         </div>
 

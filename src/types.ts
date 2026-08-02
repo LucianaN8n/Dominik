@@ -70,7 +70,7 @@ export interface PressKitItem {
 export interface LicensingRequest {
   songId?: string;
   songTitle?: string;
-  entityType: 'Gravadora' | 'Artista' | 'Empresário' | 'Produtor' | 'Audiovisual' | 'Publicidade' | 'Outro';
+  entityType: 'Selo' | 'Artista' | 'Empresário' | 'Produtor' | 'Audiovisual' | 'Publicidade' | 'Outro';
   applicantName: string;
   email: string;
   phone: string;

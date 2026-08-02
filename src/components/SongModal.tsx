@@ -207,9 +207,6 @@ export const SongModal: React.FC<SongModalProps> = ({
                   <span>✔</span> <span className="text-white/90">Obra original</span>
                 </li>
                 <li className="flex items-center gap-1.5 text-emerald-400">
-                  <span>✔</span> <span className="text-white/90">Direitos autorais protegidos internacionalmente</span>
-                </li>
-                <li className="flex items-center gap-1.5 text-emerald-400">
                   <span>✔</span> <span className="text-white/90">Registro de autoria</span>
                 </li>
                 <li className="flex items-center gap-1.5 text-emerald-400">

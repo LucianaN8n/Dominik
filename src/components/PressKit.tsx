@@ -1,47 +1,34 @@
 import React, { useState } from 'react';
 import { PRESS_KIT_ITEMS } from '../data/presskit';
 import { Download, FileText, CheckCircle2, Sparkles } from 'lucide-react';
+import { DownloadLeadModal } from './DownloadLeadModal';
 
 export const PressKit: React.FC = () => {
   const [downloadedId, setDownloadedId] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<typeof PRESS_KIT_ITEMS[0] | null>(null);
+  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
 
-  const handleDownload = (item: typeof PRESS_KIT_ITEMS[0]) => {
-    setDownloadedId(item.id);
+  const handleRequestDownload = (item: typeof PRESS_KIT_ITEMS[0]) => {
+    setSelectedItem(item);
+    setIsLeadModalOpen(true);
+  };
+
+  const executeDownload = () => {
+    if (!selectedItem) return;
+
+    setDownloadedId(selectedItem.id);
 
     const officialDocumentContent = `DOMINIK PUBLISHING
-Guia de Direitos, Biografia Oficial e Termos de Licenciamento
+${selectedItem.title}
 
 Apresentação
-Este guia apresenta as modalidades de licenciamento do catálogo da Dominik Publishing, o fluxo de contratação e a biografia institucional da compositora e fundadora Luciana da Silva Domingos.
+Este documento oficial apresenta ${selectedItem.description}
 
-Modalidades de Licenciamento
-
-Licença Exclusiva
-Concede direitos exclusivos de exploração da composição conforme contrato.
-
-Licença Não Exclusiva
-Autoriza o uso da obra sem impedir novos licenciamentos.
-
-Licença de Sincronização
-Uso em filmes, séries, publicidade, games, trailers e conteúdos audiovisuais.
-
-Licença para Exibição Publicitária
-Uso em campanhas publicitárias e comunicação institucional.
-
-Coedição Editorial
-Parcerias para administração editorial e exploração do catálogo.
-
-Fluxo de Solicitação
-1. Contato comercial.
-2. Identificação da obra.
-3. Informações do projeto.
-4. Análise artística e jurídica.
-5. Proposta comercial.
-6. Assinatura do contrato.
-7. Liberação da licença.
-
-Direitos Autorais
-As obras permanecem protegidas pela legislação de direitos autorais. O licenciamento concede apenas os direitos expressamente previstos em contrato.
+Modalidades de Licenciamento & Termos
+- Licença Exclusiva & Não Exclusiva
+- Licença de Sincronização Audiovisual
+- Licença para Exibição Publicitária
+- Coedição Editorial
 
 Biografia Oficial
 Luciana da Silva Domingos é compositora, publisher musical e empresária da área da educação. É fundadora da Dominik Publishing e da Dominik Records, onde desenvolve projetos voltados à criação de obras musicais originais, inteligência artificial aplicada à música e gestão de propriedade intelectual. Seu catálogo reúne composições como 'A Mulher em Mim', 'Código Supremo', 'Modo Imperador', 'Minha Aura Pesa', 'Código Magnético' e 'Frequência da Manifestação', destinadas ao mercado fonográfico, editorial e de sincronização audiovisual.
@@ -56,13 +43,13 @@ www.dominikpublishing.com
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `Guia_de_Direitos_e_Licenciamento_Dominik_Publishing.txt`;
+    a.download = `${selectedItem.title.replace(/[^a-zA-Z0-9]/g, '_')}_Dominik_Publishing.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    setTimeout(() => setDownloadedId(null), 3000);
+    setTimeout(() => setDownloadedId(null), 5000);
   };
 
   return (
@@ -109,7 +96,7 @@ www.dominikpublishing.com
               </div>
 
               <button
-                onClick={() => handleDownload(item)}
+                onClick={() => handleRequestDownload(item)}
                 className={`w-full py-3 border text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 transition-all ${
                   downloadedId === item.id
                     ? 'bg-emerald-500 text-black border-emerald-500'
@@ -132,6 +119,16 @@ www.dominikpublishing.com
           ))}
         </div>
       </div>
+
+      {/* LEAD CAPTURE MODAL FOR PRESS KIT */}
+      <DownloadLeadModal
+        isOpen={isLeadModalOpen}
+        onClose={() => setIsLeadModalOpen(false)}
+        documentTitle={selectedItem?.title || 'Press Kit Oficial'}
+        fileType={selectedItem?.fileType || 'PDF'}
+        fileSize={selectedItem?.fileSize || '3.2 MB'}
+        onConfirmDownload={executeDownload}
+      />
     </section>
   );
 };

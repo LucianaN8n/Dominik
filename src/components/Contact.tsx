@@ -88,7 +88,7 @@ export const Contact: React.FC = () => {
       value: '+55 11 91532-9483',
       link: 'https://wa.me/5511915329483',
       icon: Phone,
-      subtext: 'Atendimento exclusivo para gravadoras e artistas'
+      subtext: 'Atendimento exclusivo para produtoras, selos e artistas'
     },
     {
       title: 'Instagram Oficial',

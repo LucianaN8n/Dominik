@@ -100,7 +100,6 @@ export const TechnicalSheetModal: React.FC<TechnicalSheetModalProps> = ({
 ----------------------------------------------------
 • Registro da Obra:
   ✔ Obra original
-  ✔ Direitos autorais protegidos internacionalmente
   ✔ Registro de autoria
   ✔ Disponível para licenciamento
 • Código ISRC: ${formData.isrcCode || 'N/A'}
@@ -178,7 +177,7 @@ Dominik Records • Todos os Direitos Reservados
               <span>Documento Registrado</span>
             </span>
             <span className="bg-[#181818] border border-[#C5A059]/40 text-[#C5A059] text-[10px] font-bold uppercase tracking-wider px-3 py-1">
-              Registro da Obra (Protegida)
+              Registro Documental (EDA)
             </span>
           </div>
 
@@ -351,9 +350,6 @@ Dominik Records • Todos os Direitos Reservados
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-white/90">
                     <div className="flex items-center gap-2 text-emerald-400 font-medium">
                       <span>✔</span> Obra original
-                    </div>
-                    <div className="flex items-center gap-2 text-emerald-400 font-medium">
-                      <span>✔</span> Direitos autorais protegidos internacionalmente
                     </div>
                     <div className="flex items-center gap-2 text-emerald-400 font-medium">
                       <span>✔</span> Registro de autoria
@@ -579,9 +575,6 @@ Dominik Records • Todos os Direitos Reservados
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-white/90">
                     <div className="flex items-center gap-2 text-emerald-400 font-medium">
                       <span>✔</span> Obra original
-                    </div>
-                    <div className="flex items-center gap-2 text-emerald-400 font-medium">
-                      <span>✔</span> Direitos autorais protegidos internacionalmente
                     </div>
                     <div className="flex items-center gap-2 text-emerald-400 font-medium">
                       <span>✔</span> Registro de autoria

@@ -16,7 +16,7 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
   allSongs
 }) => {
   const [songId, setSongId] = useState<string>(selectedSong ? selectedSong.id : allSongs[0]?.id || '');
-  const [entityType, setEntityType] = useState<LicensingRequest['entityType']>('Gravadora');
+  const [entityType, setEntityType] = useState<LicensingRequest['entityType']>('Selo');
   const [licenseScope, setLicenseScope] = useState<LicensingRequest['licenseScope']>('Exclusiva');
   const [applicantName, setApplicantName] = useState('');
   const [companyOrArtistName, setCompanyOrArtistName] = useState('');
@@ -201,7 +201,7 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
                     onChange={(e) => setEntityType(e.target.value as LicensingRequest['entityType'])}
                     className="w-full bg-[#181818] border border-[#222222] text-white text-xs sm:text-sm px-4 py-3 focus:border-[#C5A059] focus:outline-none tracking-wide"
                   >
-                    <option value="Gravadora" className="bg-[#111111]">Gravadora / Selo</option>
+                    <option value="Selo" className="bg-[#111111]">Selo / Produtora</option>
                     <option value="Artista" className="bg-[#111111]">Artista Independente</option>
                     <option value="Empresário" className="bg-[#111111]">Empresário / Manager</option>
                     <option value="Produtor" className="bg-[#111111]">Produtor Musical</option>
@@ -246,7 +246,7 @@ export const LicensingModal: React.FC<LicensingModalProps> = ({
 
                 <div>
                   <label className="block text-[10px] uppercase font-bold tracking-[0.2em] text-white/60 mb-2">
-                    Nome da Gravadora ou Artista *
+                    Nome da Produtora, Selo ou Artista *
                   </label>
                   <input
                     type="text"
