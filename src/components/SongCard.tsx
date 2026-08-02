@@ -1,6 +1,7 @@
 import React from 'react';
 import { Song } from '../types';
-import { Play, Pause, Info, Disc3, Upload, Check, FileSpreadsheet } from 'lucide-react';
+import { Play, Pause, Info, Disc3, Upload, Check, FileSpreadsheet, FolderCheck, ExternalLink } from 'lucide-react';
+import { DOMINIK_DRIVE_FOLDER_URL } from '../utils/googleDrive';
 
 interface SongCardProps {
   song: Song;
@@ -122,52 +123,65 @@ export const SongCard: React.FC<SongCardProps> = ({
           </div>
 
           {/* AUDIO TRACK WAVEFORM / PLAYER STRIP */}
-          <div
-            onClick={() => onPlayDemo(song)}
-            className={`mb-4 p-2.5 border transition-all cursor-pointer flex items-center justify-between gap-3 ${
-              isPlaying
-                ? 'bg-[#C5A059]/15 border-[#C5A059]'
-                : 'bg-[#0d0d0d] border-[#222222] hover:border-[#C5A059]/60'
-            }`}
-            title={isPlaying ? 'Pausar reprodução' : 'Tocar reprodução desta faixa'}
-          >
-            <div className="flex items-center gap-2">
-              <div
-                className={`w-7 h-7 rounded flex items-center justify-center shrink-0 ${
-                  isPlaying ? 'bg-[#C5A059] text-black' : 'bg-[#1a1a1a] text-[#C5A059]'
-                }`}
-              >
-                {isPlaying ? (
-                  <Pause className="w-3.5 h-3.5 fill-current" />
-                ) : (
-                  <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
-                )}
+          <div className="flex items-center gap-2 mb-4">
+            <div
+              onClick={() => onPlayDemo(song)}
+              className={`flex-1 p-2.5 border transition-all cursor-pointer flex items-center justify-between gap-2 ${
+                isPlaying
+                  ? 'bg-[#C5A059]/15 border-[#C5A059]'
+                  : 'bg-[#0d0d0d] border-[#222222] hover:border-[#C5A059]/60'
+              }`}
+              title={isPlaying ? 'Pausar reprodução' : 'Tocar reprodução desta faixa'}
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <div
+                  className={`w-7 h-7 rounded flex items-center justify-center shrink-0 ${
+                    isPlaying ? 'bg-[#C5A059] text-black' : 'bg-[#1a1a1a] text-[#C5A059]'
+                  }`}
+                >
+                  {isPlaying ? (
+                    <Pause className="w-3.5 h-3.5 fill-current" />
+                  ) : (
+                    <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
+                  )}
+                </div>
+                <div className="truncate">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/90 block truncate">
+                    {isPlaying ? 'Reproduzindo' : 'Faixa de Áudio Demo'}
+                  </span>
+                  <span className="text-[9px] text-white/50 block font-mono truncate">
+                    {song.customAudioName ? `MP3: ${song.customAudioName}` : `${song.bpm} BPM • ${song.key}`}
+                  </span>
+                </div>
               </div>
-              <div>
-                <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/90 block">
-                  {isPlaying ? 'Reproduzindo Faixa Demo' : 'Faixa de Áudio Demo'}
-                </span>
-                <span className="text-[9px] text-white/50 block font-mono">
-                  {song.customAudioName ? `MP3: ${song.customAudioName}` : `${song.bpm} BPM • ${song.key}`}
-                </span>
+
+              {/* SOUNDWAVE / EQUALIZER BARS */}
+              <div className="flex items-end gap-0.5 h-5 shrink-0 px-1">
+                {(song.audioFrequencyProfile || [50, 80, 100, 60, 90, 75, 45, 85, 95, 70]).slice(0, 6).map((h, i) => (
+                  <div
+                    key={i}
+                    className={`w-1 rounded-full transition-all duration-300 ${
+                      isPlaying ? 'bg-[#C5A059] animate-pulse' : 'bg-white/20'
+                    }`}
+                    style={{
+                      height: isPlaying ? `${Math.max(16, (h / 100) * 16)}px` : '6px',
+                      animationDelay: `${i * 80}ms`
+                    }}
+                  />
+                ))}
               </div>
             </div>
 
-            {/* SOUNDWAVE / EQUALIZER BARS */}
-            <div className="flex items-end gap-0.5 h-5 shrink-0 px-1">
-              {(song.audioFrequencyProfile || [50, 80, 100, 60, 90, 75, 45, 85, 95, 70]).slice(0, 10).map((h, i) => (
-                <div
-                  key={i}
-                  className={`w-1 rounded-full transition-all duration-300 ${
-                    isPlaying ? 'bg-[#C5A059] animate-pulse' : 'bg-white/20'
-                  }`}
-                  style={{
-                    height: isPlaying ? `${Math.max(20, (h / 100) * 20)}px` : '6px',
-                    animationDelay: `${i * 80}ms`
-                  }}
-                />
-              ))}
-            </div>
+            <a
+              href={DOMINIK_DRIVE_FOLDER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 bg-[#181818] hover:bg-[#C5A059] border border-[#C5A059]/50 hover:border-[#C5A059] text-[#C5A059] hover:text-black text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-all shrink-0 h-[46px]"
+              title="Abrir pasta de áudios oficiais no Google Drive"
+            >
+              <FolderCheck className="w-3.5 h-3.5 shrink-0" />
+              <span className="hidden sm:inline">Drive</span>
+            </a>
           </div>
         </div>
 

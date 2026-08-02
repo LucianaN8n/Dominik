@@ -32,6 +32,7 @@ export const AddSongModal: React.FC<AddSongModalProps> = ({
 
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioFileName, setAudioFileName] = useState<string>('');
+  const [audioUrlInput, setAudioUrlInput] = useState<string>(initialSong?.audioUrl || '');
 
   if (!isOpen) return null;
 
@@ -60,7 +61,7 @@ export const AddSongModal: React.FC<AddSongModalProps> = ({
       mood: ['Autoral', genre.trim()],
       suggestedArtists: suggestedArtists.split(',').map(s => s.trim()).filter(Boolean),
       coverUrl: initialSong?.coverUrl || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800',
-      audioUrl: initialSong?.audioUrl || (audioFile ? URL.createObjectURL(audioFile) : '/audio/frequencia_manifestacao_demo.wav'),
+      audioUrl: audioFile ? URL.createObjectURL(audioFile) : (audioUrlInput.trim() || initialSong?.audioUrl || '/audio/frequencia_manifestacao_demo.wav'),
       history: history.trim() || 'Composição autoral desenvolvida por Luciana Domingos.',
       concept: concept.trim() || 'Obra musical com arranjos modernos e identidade urbana.',
       language: 'Português',
@@ -249,23 +250,41 @@ export const AddSongModal: React.FC<AddSongModalProps> = ({
             />
           </div>
 
-          {/* AUDIO FILE UPLOAD */}
-          <div className="p-4 bg-[#181818] border border-[#C5A059]/40 rounded-sm">
-            <label className="block text-[10px] uppercase font-bold tracking-wider text-[#C5A059] mb-2 flex items-center gap-2">
-              <Upload className="w-4 h-4 text-[#C5A059]" />
-              Anexar Arquivo de Áudio / Guia (.mp3, .wav, .m4a)
-            </label>
-            <input
-              type="file"
-              accept="audio/*"
-              onChange={handleAudioChange}
-              className="block w-full text-xs text-white/70 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-xs file:font-bold file:uppercase file:bg-[#C5A059] file:text-black hover:file:bg-white cursor-pointer"
-            />
-            {audioFileName && (
-              <p className="text-[11px] text-emerald-400 font-mono mt-2 flex items-center gap-1">
-                <Check className="w-3.5 h-3.5" /> Áudio selecionado: {audioFileName}
+          {/* AUDIO FILE UPLOAD & GOOGLE DRIVE LINK */}
+          <div className="p-4 bg-[#181818] border border-[#C5A059]/40 rounded-sm space-y-3">
+            <div>
+              <label className="block text-[10px] uppercase font-bold tracking-wider text-[#C5A059] mb-1.5 flex items-center gap-2">
+                <Upload className="w-4 h-4 text-[#C5A059]" />
+                1. Opção: Anexar Arquivo do Computador (.mp3, .wav)
+              </label>
+              <input
+                type="file"
+                accept="audio/*"
+                onChange={handleAudioChange}
+                className="block w-full text-xs text-white/70 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-xs file:font-bold file:uppercase file:bg-[#C5A059] file:text-black hover:file:bg-white cursor-pointer"
+              />
+              {audioFileName && (
+                <p className="text-[11px] text-emerald-400 font-mono mt-1.5 flex items-center gap-1">
+                  <Check className="w-3.5 h-3.5" /> Áudio selecionado: {audioFileName}
+                </p>
+              )}
+            </div>
+
+            <div className="pt-2 border-t border-[#222222]">
+              <label className="block text-[10px] uppercase font-bold tracking-wider text-[#C5A059] mb-1">
+                2. Opção: Cole o Link do Áudio no Google Drive (URL)
+              </label>
+              <input
+                type="url"
+                placeholder="Ex: https://drive.google.com/file/d/.../view"
+                value={audioUrlInput}
+                onChange={(e) => setAudioUrlInput(e.target.value)}
+                className="w-full bg-[#111111] border border-[#222222] text-white p-2.5 focus:border-[#C5A059] focus:outline-none text-xs font-mono"
+              />
+              <p className="text-[10px] text-white/40 mt-1">
+                Cole o link de compartilhamento do seu arquivo MP3 ou WAV no Google Drive.
               </p>
-            )}
+            </div>
           </div>
 
           <div>

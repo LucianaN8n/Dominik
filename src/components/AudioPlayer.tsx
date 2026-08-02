@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Song } from '../types';
-import { Play, Pause, Volume2, VolumeX, ShieldCheck, ArrowUpRight, Disc3, Music2, Upload } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, ShieldCheck, ArrowUpRight, Disc3, Music2, Upload, FolderCheck } from 'lucide-react';
 import { getFrequencyData } from '../utils/audioSynth';
+import { DOMINIK_DRIVE_FOLDER_URL } from '../utils/googleDrive';
 
 interface AudioPlayerProps {
   currentSong: Song | null;
@@ -184,6 +185,17 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
         {/* LICENSING & UPLOAD CTA IN PLAYER */}
         <div className="w-full md:w-auto flex items-center justify-end gap-2">
+          <a
+            href={DOMINIK_DRIVE_FOLDER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3 py-2 bg-[#181818] hover:bg-[#C5A059] border border-[#C5A059]/60 text-[#C5A059] hover:text-black text-[10px] font-bold uppercase tracking-[0.15em] flex items-center gap-1.5 transition-all shadow-md"
+            title="Abrir pasta no Google Drive com todos os áudios HD"
+          >
+            <FolderCheck className="w-3.5 h-3.5 text-[#C5A059] group-hover:text-black shrink-0" />
+            <span className="hidden sm:inline">Google Drive</span>
+          </a>
+
           {isAuthorMode && onUpdateAudio && (
             <label className="px-3 py-2 bg-[#181818] border border-[#C5A059]/40 hover:border-[#C5A059] text-[#C5A059] hover:text-white text-[10px] font-bold uppercase tracking-[0.15em] cursor-pointer flex items-center gap-1.5 transition-all" title="Anexar/Atualizar Áudio Demo MP3">
               <Upload className="w-3.5 h-3.5 text-[#C5A059]" />

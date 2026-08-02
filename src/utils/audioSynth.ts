@@ -3,6 +3,8 @@
  * Generates dark luxury Trap, Trap Soul, Dark Trap, and Boom Bap Hip-Hop audio vibes.
  */
 
+import { getAudioStreamUrl } from './googleDrive';
+
 let audioCtx: AudioContext | null = null;
 let masterGain: GainNode | null = null;
 let analyzerNode: AnalyserNode | null = null;
@@ -179,7 +181,8 @@ export function startDemoBeat(demoType: string = 'Trap', bpm: number = 130, audi
 
   if (audioUrl) {
     try {
-      const audio = new Audio(audioUrl);
+      const streamUrl = getAudioStreamUrl(audioUrl) || audioUrl;
+      const audio = new Audio(streamUrl);
       activeAudioElement = audio;
       audio.volume = masterGain ? masterGain.gain.value : 0.7;
       audio.loop = true;

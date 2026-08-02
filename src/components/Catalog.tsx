@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { Song } from '../types';
 import { SongCard } from './SongCard';
-import { Filter, Music, Sparkles, SlidersHorizontal, Search } from 'lucide-react';
+import { Filter, Music, Sparkles, SlidersHorizontal, Search, FolderCheck } from 'lucide-react';
+import { DOMINIK_DRIVE_FOLDER_URL } from '../utils/googleDrive';
 
 interface CatalogProps {
   songs: Song[];
@@ -89,6 +90,17 @@ export const Catalog: React.FC<CatalogProps> = ({
 
           {/* TOTAL METRIC & AUTHOR ACTION */}
           <div className="mt-6 md:mt-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <a
+              href={DOMINIK_DRIVE_FOLDER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#181818] hover:bg-[#C5A059] text-[#C5A059] hover:text-black border border-[#C5A059] font-bold text-xs uppercase tracking-[0.15em] px-5 py-3.5 flex items-center justify-center gap-2 transition-all shadow-xl"
+              title="Abrir Pasta do Google Drive com Todas as Demos de Áudio"
+            >
+              <FolderCheck className="w-4 h-4 text-[#C5A059] group-hover:text-black shrink-0" />
+              <span>Áudios no Google Drive</span>
+            </a>
+
             {isAuthorMode && onAddNewSong && (
               <button
                 onClick={onAddNewSong}

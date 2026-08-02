@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Song } from '../types';
-import { X, Play, Pause, Disc3, ShieldCheck, Sparkles, FileText, ArrowUpRight, Copy, Check, Share2, Upload, Music, ArrowLeft, FileSpreadsheet } from 'lucide-react';
+import { X, Play, Pause, Disc3, ShieldCheck, Sparkles, FileText, ArrowUpRight, Copy, Check, Share2, Upload, Music, ArrowLeft, FileSpreadsheet, FolderCheck, ExternalLink } from 'lucide-react';
+import { DOMINIK_DRIVE_FOLDER_URL } from '../utils/googleDrive';
 
 interface SongModalProps {
   song: Song | null;
@@ -282,6 +283,17 @@ export const SongModal: React.FC<SongModalProps> = ({
             </div>
 
             <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
+              <a
+                href={DOMINIK_DRIVE_FOLDER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2.5 bg-[#181818] hover:bg-[#C5A059] text-[#C5A059] hover:text-black border border-[#C5A059] font-bold text-xs uppercase tracking-[0.15em] flex items-center gap-2 transition-all shadow-md"
+                title="Abrir pasta no Google Drive para ouvir/baixar áudio oficial HD"
+              >
+                <FolderCheck className="w-4 h-4 text-[#C5A059] group-hover:text-black shrink-0" />
+                <span>Google Drive</span>
+              </a>
+
               <button
                 onClick={() => onPlayDemo(song)}
                 className={`px-5 py-2.5 font-bold text-xs uppercase tracking-[0.2em] whitespace-nowrap border transition-all ${
