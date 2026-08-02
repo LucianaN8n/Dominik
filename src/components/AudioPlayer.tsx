@@ -131,32 +131,34 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         </div>
 
         {/* CONTROLS & ANIMATED WAVEFORM */}
-        <div className="flex items-center gap-4 w-full md:w-auto justify-center">
-          {/* PLAY / PAUSE BUTTON */}
-          <button
-            onClick={onTogglePlay}
-            className={`w-11 h-11 flex items-center justify-center transition-all duration-300 shrink-0 ${
-              isPlaying
-                ? 'bg-[#C5A059] text-black scale-105'
-                : 'bg-white text-black hover:bg-[#C5A059]'
-            }`}
-            title={isPlaying ? 'Pausar' : 'Ouvir Demo'}
-          >
-            {isPlaying ? (
-              <Pause className="w-5 h-5 fill-current" />
-            ) : (
-              <Play className="w-5 h-5 fill-current ml-0.5" />
-            )}
-          </button>
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full md:w-auto justify-center">
+          <div className="flex items-center gap-3">
+            {/* PLAY / PAUSE BUTTON */}
+            <button
+              onClick={onTogglePlay}
+              className={`w-11 h-11 flex items-center justify-center transition-all duration-300 shrink-0 ${
+                isPlaying
+                  ? 'bg-[#C5A059] text-black scale-105'
+                  : 'bg-white text-black hover:bg-[#C5A059]'
+              }`}
+              title={isPlaying ? 'Pausar' : 'Ouvir Demo'}
+            >
+              {isPlaying ? (
+                <Pause className="w-5 h-5 fill-current" />
+              ) : (
+                <Play className="w-5 h-5 fill-current ml-0.5" />
+              )}
+            </button>
 
-          {/* CANVAS AUDIO WAVEFORM */}
-          <div className="hidden sm:flex flex-col items-center">
-            <canvas ref={canvasRef} width={120} height={24} />
-            <div className="w-32 bg-[#222222] h-1 mt-1.5 overflow-hidden">
-              <div
-                className="bg-[#C5A059] h-full transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
+            {/* CANVAS AUDIO WAVEFORM & PROGRESS BAR */}
+            <div className="flex flex-col items-center flex-1 sm:flex-initial">
+              <canvas ref={canvasRef} width={120} height={24} className="h-5 sm:h-6" />
+              <div className="w-28 sm:w-32 bg-[#222222] h-1.5 mt-1 overflow-hidden rounded-full">
+                <div
+                  className="bg-[#C5A059] h-full transition-all duration-300"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
             </div>
           </div>
 

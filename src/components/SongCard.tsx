@@ -112,12 +112,61 @@ export const SongCard: React.FC<SongCardProps> = ({
           </div>
 
           {/* SUGGESTED ARTISTS */}
-          <div className="mb-5 pt-3 border-t border-[#222222]">
+          <div className="mb-4 pt-3 border-t border-[#222222]">
             <span className="text-[9px] uppercase tracking-[0.25em] text-white/40 block mb-1">
               Sugerido para
             </span>
             <div className="text-xs text-[#C5A059] font-medium italic tracking-wide">
               {song.suggestedArtists.join(' • ')}
+            </div>
+          </div>
+
+          {/* AUDIO TRACK WAVEFORM / PLAYER STRIP */}
+          <div
+            onClick={() => onPlayDemo(song)}
+            className={`mb-4 p-2.5 border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+              isPlaying
+                ? 'bg-[#C5A059]/15 border-[#C5A059]'
+                : 'bg-[#0d0d0d] border-[#222222] hover:border-[#C5A059]/60'
+            }`}
+            title={isPlaying ? 'Pausar reprodução' : 'Tocar reprodução desta faixa'}
+          >
+            <div className="flex items-center gap-2">
+              <div
+                className={`w-7 h-7 rounded flex items-center justify-center shrink-0 ${
+                  isPlaying ? 'bg-[#C5A059] text-black' : 'bg-[#1a1a1a] text-[#C5A059]'
+                }`}
+              >
+                {isPlaying ? (
+                  <Pause className="w-3.5 h-3.5 fill-current" />
+                ) : (
+                  <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
+                )}
+              </div>
+              <div>
+                <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/90 block">
+                  {isPlaying ? 'Reproduzindo Faixa Demo' : 'Faixa de Áudio Demo'}
+                </span>
+                <span className="text-[9px] text-white/50 block font-mono">
+                  {song.customAudioName ? `MP3: ${song.customAudioName}` : `${song.bpm} BPM • ${song.key}`}
+                </span>
+              </div>
+            </div>
+
+            {/* SOUNDWAVE / EQUALIZER BARS */}
+            <div className="flex items-end gap-0.5 h-5 shrink-0 px-1">
+              {(song.audioFrequencyProfile || [50, 80, 100, 60, 90, 75, 45, 85, 95, 70]).slice(0, 10).map((h, i) => (
+                <div
+                  key={i}
+                  className={`w-1 rounded-full transition-all duration-300 ${
+                    isPlaying ? 'bg-[#C5A059] animate-pulse' : 'bg-white/20'
+                  }`}
+                  style={{
+                    height: isPlaying ? `${Math.max(20, (h / 100) * 20)}px` : '6px',
+                    animationDelay: `${i * 80}ms`
+                  }}
+                />
+              ))}
             </div>
           </div>
         </div>
