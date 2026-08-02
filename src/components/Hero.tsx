@@ -41,13 +41,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenLicensing }) => {
 
         {/* MAIN HEADING */}
         <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-serif italic leading-[1.08] mb-6 text-white max-w-4xl mx-auto">
-          Músicas que contam <br />
-          <span className="text-[#C5A059] not-italic font-cinzel">histórias</span> de impacto.
+          Composições originais, <br />
+          <span className="text-[#C5A059] not-italic font-cinzel">prontas para gravar.</span>
         </h1>
 
         {/* SUBTITLE */}
-        <p className="max-w-2xl mx-auto text-base sm:text-lg text-white/60 font-light italic leading-relaxed mb-10 tracking-wide">
-          A Dominik Publishing desenvolve composições autorais originais para grandes artistas, gravadoras e projetos audiovisuais de alto padrão.
+        <p className="max-w-3xl mx-auto text-base sm:text-lg text-white/80 font-light leading-relaxed mb-10 tracking-wide">
+          Faixas autorais licenciadas para artistas independentes, canais, podcasts e projetos audiovisuais — com stems, contrato e uso comercial liberado.
         </p>
 
         {/* BUTTONS */}
