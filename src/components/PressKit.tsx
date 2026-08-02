@@ -8,13 +8,55 @@ export const PressKit: React.FC = () => {
   const handleDownload = (item: typeof PRESS_KIT_ITEMS[0]) => {
     setDownloadedId(item.id);
 
-    // Create simulated file blob download
-    const content = `DOMINIK PUBLISHING - PRESS KIT MEDIA ASSET\nDocumento: ${item.title}\nCategoria: ${item.category}\nData de Emissão: 2026\nContato Comercial: contato@dominikpublishing.com\n\nEste é um documento oficial demonstrativo da Dominik Publishing. Todos os direitos reservados.`;
-    const blob = new Blob([content], { type: 'text/plain' });
+    const officialDocumentContent = `DOMINIK PUBLISHING
+Guia de Direitos, Biografia Oficial e Termos de Licenciamento
+
+Apresentação
+Este guia apresenta as modalidades de licenciamento do catálogo da Dominik Publishing, o fluxo de contratação e a biografia institucional da compositora e fundadora Luciana da Silva Domingos.
+
+Modalidades de Licenciamento
+
+Licença Exclusiva
+Concede direitos exclusivos de exploração da composição conforme contrato.
+
+Licença Não Exclusiva
+Autoriza o uso da obra sem impedir novos licenciamentos.
+
+Licença de Sincronização
+Uso em filmes, séries, publicidade, games, trailers e conteúdos audiovisuais.
+
+Licença para Exibição Publicitária
+Uso em campanhas publicitárias e comunicação institucional.
+
+Coedição Editorial
+Parcerias para administração editorial e exploração do catálogo.
+
+Fluxo de Solicitação
+1. Contato comercial.
+2. Identificação da obra.
+3. Informações do projeto.
+4. Análise artística e jurídica.
+5. Proposta comercial.
+6. Assinatura do contrato.
+7. Liberação da licença.
+
+Direitos Autorais
+As obras permanecem protegidas pela legislação de direitos autorais. O licenciamento concede apenas os direitos expressamente previstos em contrato.
+
+Biografia Oficial
+Luciana da Silva Domingos é compositora, publisher musical e empresária da área da educação. É fundadora da Dominik Publishing e da Dominik Records, onde desenvolve projetos voltados à criação de obras musicais originais, inteligência artificial aplicada à música e gestão de propriedade intelectual. Seu catálogo reúne composições como 'A Mulher em Mim', 'Código Supremo', 'Modo Imperador', 'Minha Aura Pesa', 'Código Magnético' e 'Frequência da Manifestação', destinadas ao mercado fonográfico, editorial e de sincronização audiovisual.
+
+Contato
+Dominik Publishing
+Licenciamento • Sincronização • Gravações • Parcerias Editoriais
+www.dominikpublishing.com
+`;
+
+    const blob = new Blob([officialDocumentContent], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `Dominik_Publishing_${item.id}.txt`;
+    a.download = `Guia_de_Direitos_e_Licenciamento_Dominik_Publishing.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

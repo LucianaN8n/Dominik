@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, Cpu, UserCheck, ShieldCheck, Award } from 'lucide-react';
+import { Compass, Cpu, UserCheck } from 'lucide-react';
 
 export const About: React.FC = () => {
   return (
@@ -35,14 +35,28 @@ export const About: React.FC = () => {
             Cada composição nasce de um processo criativo que combina direção artística, composição humana e tecnologia como ferramenta de apoio, preservando autenticidade, originalidade e identidade artística.
           </p>
 
-          {/* FOUNDER HIGHLIGHT BOX (GEOMETRIC BALANCE PATTERN) */}
-          <div className="mt-8 p-6 bg-[#C5A059] text-black">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 text-black/80">
-              Fundadora & Diretora Criativa
-            </h4>
-            <p className="font-serif text-xl sm:text-2xl italic leading-tight font-normal text-black">
-              Luciana Domingos desenvolve obras autorais que unem emoção profunda e identidade comercial de mercado.
-            </p>
+          {/* FOUNDER HIGHLIGHT BOX (OFFICIAL MANIFESTO) */}
+          <div className="mt-8 p-6 sm:p-8 bg-[#141414] border border-[#222222] border-l-4 border-l-[#C5A059] shadow-2xl">
+            {/* TEXT & MANIFESTO QUOTE */}
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#C5A059] block mb-2">
+                Fundadora & Diretora Criativa
+              </span>
+              <div className="space-y-1 mb-4 font-serif italic text-base sm:text-lg font-normal text-white/95 leading-relaxed">
+                <p>“Música é visão. Direitos são legado.”</p>
+                <p>“Conexões são poder. Criar hoje para inspirar sempre.”</p>
+              </div>
+              <div className="pt-2 border-t border-[#222222]/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h4 className="font-serif italic text-lg font-normal text-[#C5A059]">
+                    Luciana Domingos
+                  </h4>
+                  <p className="text-[10px] uppercase tracking-[0.15em] text-white/50 font-semibold">
+                    Founder & CEO • Dominik Publishing
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

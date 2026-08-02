@@ -15,25 +15,55 @@ export const LegalProtection: React.FC = () => {
 
   const handleDownloadPdf = () => {
     setDownloaded(true);
-    const content = `DOMINIK PUBLISHING - GUIA DE DIREITOS & TERMOS DE LICENCIAMENTO
-Autora: Luciana Domingos (Lyra)
-Editora: Dominik Records & Publishing
-Data: 2026
+    const content = `DOMINIK PUBLISHING
+Guia de Direitos, Biografia Oficial e Termos de Licenciamento
 
-1. BIOGRAFIA OFICIAL - LUCIANA DOMINGOS
-Trajetória artística, visão criativa e especialização em R&B Contemporâneo, Trap Soul e Pop Urbano.
+Apresentação
+Este guia apresenta as modalidades de licenciamento do catálogo da Dominik Publishing, o fluxo de contratação e a biografia institucional da compositora e fundadora Luciana da Silva Domingos.
 
-2. GUIA DE DIREITOS & TERMOS DE LICENCIAMENTO
-Manual explicativo sobre tipos de licenças comerciais (Exclusiva, Sincronização, Exibição Publicitária) e fluxo de solicitação direta de autorização de uso.
+Modalidades de Licenciamento
 
-Todas as obras possuem registro autoral ativo e proteção internacional de direitos autorais.
-Contato Comercial: contato@dominikpublishing.com`;
+Licença Exclusiva
+Concede direitos exclusivos de exploração da composição conforme contrato.
 
-    const blob = new Blob([content], { type: 'text/plain' });
+Licença Não Exclusiva
+Autoriza o uso da obra sem impedir novos licenciamentos.
+
+Licença de Sincronização
+Uso em filmes, séries, publicidade, games, trailers e conteúdos audiovisuais.
+
+Licença para Exibição Publicitária
+Uso em campanhas publicitárias e comunicação institucional.
+
+Coedição Editorial
+Parcerias para administração editorial e exploração do catálogo.
+
+Fluxo de Solicitação
+1. Contato comercial.
+2. Identificação da obra.
+3. Informações do projeto.
+4. Análise artística e jurídica.
+5. Proposta comercial.
+6. Assinatura do contrato.
+7. Liberação da licença.
+
+Direitos Autorais
+As obras permanecem protegidas pela legislação de direitos autorais. O licenciamento concede apenas os direitos expressamente previstos em contrato.
+
+Biografia Oficial
+Luciana da Silva Domingos é compositora, publisher musical e empresária da área da educação. É fundadora da Dominik Publishing e da Dominik Records, onde desenvolve projetos voltados à criação de obras musicais originais, inteligência artificial aplicada à música e gestão de propriedade intelectual. Seu catálogo reúne composições como 'A Mulher em Mim', 'Código Supremo', 'Modo Imperador', 'Minha Aura Pesa', 'Código Magnético' e 'Frequência da Manifestação', destinadas ao mercado fonográfico, editorial e de sincronização audiovisual.
+
+Contato
+Dominik Publishing
+Licenciamento • Sincronização • Gravações • Parcerias Editoriais
+www.dominikpublishing.com
+`;
+
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `Guia_de_Direitos_e_Licenciamento_Luciana_Domingos.txt`;
+    a.download = `Guia_de_Direitos_Biografia_e_Licenciamento_Luciana_Domingos.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
