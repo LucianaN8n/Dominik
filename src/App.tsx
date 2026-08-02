@@ -33,26 +33,26 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Merge with INITIAL_SONGS so newly updated fields in source code are always preserved
+          // Merge with INITIAL_SONGS ensuring official metadata & audio URLs are always valid
           const merged = INITIAL_SONGS.map(initSong => {
             const found = parsed.find((p: Song) => p.id === initSong.id);
             if (!found) return initSong;
+            
+            // If saved audioUrl is an expired blob: string, revert to initSong.audioUrl
+            const isValidSavedUrl = found.audioUrl && !found.audioUrl.startsWith('blob:');
+            
             return {
-              ...found,
               ...initSong,
-              isrcCode: initSong.isrcCode || found.isrcCode,
-              upcCode: initSong.upcCode || found.upcCode,
-              iswcCode: initSong.iswcCode || found.iswcCode,
+              audioUrl: isValidSavedUrl ? found.audioUrl : initSong.audioUrl,
+              customAudioName: found.customAudioName,
+              hasCustomAudio: Boolean(found.hasCustomAudio),
               technicalSheet: {
-                ...found.technicalSheet,
                 ...initSong.technicalSheet,
-                isrcCode: initSong.technicalSheet?.isrcCode || found.technicalSheet?.isrcCode,
-                upcCode: initSong.technicalSheet?.upcCode || found.technicalSheet?.upcCode,
-                iswcCode: initSong.technicalSheet?.iswcCode || found.technicalSheet?.iswcCode,
+                ...(found.technicalSheet || {})
               }
             };
           });
-          const customAdded = parsed.filter((p: Song) => !INITIAL_SONGS.some(i => i.id === p.id));
+          const customAdded = parsed.filter((p: Song) => p.id && !INITIAL_SONGS.some(i => i.id === p.id));
           return [...merged, ...customAdded];
         }
       }
@@ -83,10 +83,18 @@ export default function App() {
   // Search state
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  // Persist songs list whenever it changes
+  // Persist songs list whenever it changes (stripping temporary blob URLs)
   useEffect(() => {
     try {
-      localStorage.setItem('dominik_catalog_songs', JSON.stringify(songs));
+      const sanitized = songs.map(s => {
+        const init = INITIAL_SONGS.find(i => i.id === s.id);
+        const isBlob = s.audioUrl && s.audioUrl.startsWith('blob:');
+        return {
+          ...s,
+          audioUrl: isBlob ? (init?.audioUrl || '') : s.audioUrl
+        };
+      });
+      localStorage.setItem('dominik_catalog_songs', JSON.stringify(sanitized));
     } catch (err) {
       console.error('Error persisting songs catalog:', err);
     }
@@ -106,6 +114,7 @@ export default function App() {
         prev.map(s => {
           const storedAudio = customAudios[s.id];
           const storedSheet = savedSheets[s.id];
+          const init = INITIAL_SONGS.find(i => i.id === s.id);
 
           let updated = { ...s };
 
@@ -113,6 +122,10 @@ export default function App() {
             updated.audioUrl = storedAudio.audioUrl;
             updated.customAudioName = storedAudio.fileName;
             updated.hasCustomAudio = true;
+          } else if (init) {
+            // Restore bundled audio URL if no custom upload exists in IndexedDB
+            updated.audioUrl = init.audioUrl;
+            updated.hasCustomAudio = false;
           }
 
           if (storedSheet) {
