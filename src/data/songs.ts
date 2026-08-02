@@ -282,76 +282,69 @@ Só ficou pra olhar...`,
     key: 'Sol Menor (Gm)',
     commercialPotential: 'Potencial massivo para viralização no TikTok/Reels, entrada direta nos charts de Trap Nacional e sync em games de esportes e campanhas corporativas.',
     lyricsSnippet: `[Intro]
-Dominik Records...
-
-Onde a mente domina...
-
-O impossível recua.
-
-(Boom)
+Ahn…
+Frequência da cura, mas o grave rasga o chão
+Ativando a prosperidade na marra
+Se prepara pro impacto
+Cê tá sentindo a vibração?
 
 [Verse 1]
-
-Eu vim de longe
-Olho frio, passo firme
-Disciplina no peito
-Nada me desvia
-
-Cabeça em guerra
-Mas a mente blindada
-Faço do peso
-Minha escada
-
-Não espero sorte
-Eu construo destino
-Cada batalha
-Refinou meu instinto
-
-Enquanto eles sonham...
-Eu construo.
-
-Enquanto eles esperam...
-Eu avanço.
+Mente blindada, o topo é o alvo
+Olha pro bolso, tá tudo lotado
+Frequência da luz limpando os bloqueios
+Eu não quero resto, eu quero o recheio
+Prosperidade exala na pele
+O universo responde pro bonde
+Quem tem visão nunca mais se esconde
+Grave batendo, o copo tremendo
 
 [Pre-Chorus]
+A energia subiu, o público grita
+Ninguém segura quem manifesta e acredita
+Ouve o estalo, sente o impacto
+Com a abundância eu fiz um pacto
 
-Respira...
+[Chorus]
+Código supremo! (vem!)
+Grave batendo no peito, explosão! (rá!)
+O ouro tá vindo pro meu lado
+Manifestado e profetizado
+Código supremo! (vem!)
+Grave batendo no peito, explosão!
+Derrubando as portas com o pé
+Prosperidade pra quem tem fé
 
-Olha o horizonte...
+[Verse 2]
+Atraio cifrão, atraio poder
+Tudo que eu quero eu vou receber
+Energia binaural na minha mente
+Mudando a vida de toda a minha gente
+Notas azuis empilhadas na mesa
+Luz de quinhentos e vinte e oito limpando a tristeza
+Sente o poder desse show, tá lotado
+O mundo já é meu, tá decretado
 
-O próximo nível...
+[Bridge]
+Não foi sorte, foi visão
+Não foi acaso, foi decisão
+Quando eu falo, o chão responde
+Minha voz acende o horizonte
 
-Já começou.
+[Chorus]
+Código supremo! (vem!)
+Grave batendo no peito, explosão! (rá!)
+O ouro tá vindo pro meu lado
+Manifestado e profetizado
+Código supremo! (vem!)
+Grave batendo no peito, explosão!
+Derrubando as portas com o pé
+Prosperidade pra quem tem fé
 
-[Drop]
-
-Modo Imperador.
-
-Liga.
-
-Modo Imperador.
-
-Vai.
-
-Sem medo.
-
-Sem freio.
-
-Só foco.
-
-Explode.
-
-Modo Imperador.
-
-Liga.
-
-Modo Imperador.
-
-Vai.
-
-Quando eu passo...
-
-O jogo muda.`,
+[Outro]
+Tá feito
+Sente o eco do grave
+Prosperidade pura
+Ahn…`,
     registrationStatus: 'Registro da Obra: Biblioteca Nacional (EDA) | Autoria & Licenciamento Disponível',
     isrcCode: 'BR-DMK-26-00004',
     upcCode: '7891000260004',
