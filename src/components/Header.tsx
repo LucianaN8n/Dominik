@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Disc3, Search, FileText, UserCheck, Menu, X, ArrowUpRight, Music2, Lock, ShieldCheck, KeyRound, FolderCheck } from 'lucide-react';
-import { DOMINIK_DRIVE_FOLDER_URL } from '../utils/googleDrive';
+import { Disc3, Search, FileText, UserCheck, Menu, X, ArrowUpRight, Music2, Lock, ShieldCheck, KeyRound } from 'lucide-react';
 
 interface HeaderProps {
   onOpenLicensing: () => void;
@@ -130,18 +129,6 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
 
-          {/* GOOGLE DRIVE LINK */}
-          <a
-            href={DOMINIK_DRIVE_FOLDER_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden xl:flex items-center gap-1.5 px-3 py-2 border border-[#C5A059]/50 hover:border-[#C5A059] bg-[#181818] hover:bg-[#C5A059] text-[#C5A059] hover:text-black text-[10px] tracking-[0.15em] font-bold uppercase transition-all shadow-md"
-            title="Abrir Pasta Oficial do Google Drive com Áudios Demos HD"
-          >
-            <FolderCheck className="w-3.5 h-3.5 shrink-0 text-[#C5A059] group-hover:text-black" />
-            <span>Google Drive</span>
-          </a>
-
           {/* AUTHOR MODE BUTTON */}
           <button
             onClick={() => onOpenAuthorAuth?.()}
@@ -243,15 +230,6 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
           <div className="pt-4 border-t border-neutral-800 flex flex-col gap-2">
-            <a
-              href={DOMINIK_DRIVE_FOLDER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full py-2.5 text-center text-xs font-bold uppercase tracking-wider bg-[#181818] border border-[#C5A059] text-[#C5A059] flex items-center justify-center gap-2"
-            >
-              <FolderCheck className="w-4 h-4 text-[#C5A059]" />
-              <span>Abrir Pasta do Google Drive</span>
-            </a>
             <button
               onClick={() => {
                 setMobileMenuOpen(false);

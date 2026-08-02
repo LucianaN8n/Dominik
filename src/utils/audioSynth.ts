@@ -3,8 +3,6 @@
  * Generates dark luxury Trap, Trap Soul, Dark Trap, and Boom Bap Hip-Hop audio vibes.
  */
 
-import { getAudioStreamUrl } from './googleDrive';
-
 let audioCtx: AudioContext | null = null;
 let masterGain: GainNode | null = null;
 let analyzerNode: AnalyserNode | null = null;
@@ -18,13 +16,28 @@ export function getAudioContext(): AudioContext {
     audioCtx = new AudioContextClass();
   }
   if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
+    audioCtx.resume().catch(() => {});
   }
   return audioCtx;
 }
 
+// Global user gesture unlocker for Mobile / Edge restriction policies
+if (typeof window !== 'undefined') {
+  const unlockAudio = () => {
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
+  };
+  window.addEventListener('pointerdown', unlockAudio, { passive: true });
+  window.addEventListener('touchstart', unlockAudio, { passive: true });
+  window.addEventListener('click', unlockAudio, { passive: true });
+}
+
 export function initAudioEngine() {
   const ctx = getAudioContext();
+  if (ctx.state === 'suspended') {
+    ctx.resume().catch(() => {});
+  }
   if (!masterGain) {
     masterGain = ctx.createGain();
     masterGain.gain.setValueAtTime(0.7, ctx.currentTime);
@@ -162,7 +175,7 @@ function playPadChord(time: number, freqs: number[], duration: number) {
 
     osc.connect(filter);
     filter.connect(gain);
-    gain.connect(masterGain!);
+    filter.connect(masterGain!);
 
     osc.start(time);
     osc.stop(time + duration);
@@ -181,14 +194,20 @@ export function startDemoBeat(demoType: string = 'Trap', bpm: number = 130, audi
 
   if (audioUrl) {
     try {
-      const streamUrl = getAudioStreamUrl(audioUrl) || audioUrl;
-      const audio = new Audio(streamUrl);
+      const baseUrl = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : '/';
+      const cleanPath = audioUrl.startsWith('/') ? audioUrl.slice(1) : audioUrl;
+      const fullUrl = audioUrl.startsWith('http') ? audioUrl : new URL(cleanPath, window.location.origin + (baseUrl.endsWith('/') ? baseUrl : baseUrl + '/')).href;
+
+      const audio = new Audio(fullUrl);
       activeAudioElement = audio;
-      audio.volume = masterGain ? masterGain.gain.value : 0.7;
+      audio.volume = masterGain ? masterGain.gain.value : 0.8;
       audio.loop = true;
 
-      const handleAudioError = (err?: unknown) => {
-        console.warn('Real audio load/play issue, falling back to synth beat:', err);
+      let fallbackTriggered = false;
+      const triggerFallback = (reason: string) => {
+        if (fallbackTriggered) return;
+        fallbackTriggered = true;
+        console.warn(`[Dominik Audio Engine] Real audio fallback (${reason}), starting procedural beat`);
         if (activeAudioElement === audio) {
           activeAudioElement.pause();
           activeAudioElement = null;
@@ -196,30 +215,51 @@ export function startDemoBeat(demoType: string = 'Trap', bpm: number = 130, audi
         runProceduralBeat(demoType, bpm);
       };
 
-      audio.onerror = () => handleAudioError('audio onerror event');
+      audio.onerror = () => triggerFallback('network or format error');
 
       audio.play().then(() => {
-        // Audio is playing successfully!
+        // Audio is playing natively!
       }).catch((playErr) => {
-        // Autoplay or user gesture required: attempt resume and play once more
+        // User interaction requirement or play rejection
         ctx.resume().then(() => {
           return audio.play();
-        }).catch(() => {
-          handleAudioError(playErr);
+        }).catch((err) => {
+          triggerFallback(`play rejected: ${err.message || playErr}`);
         });
       });
       return;
     } catch (err) {
+      console.warn('[Dominik Audio Engine] Error setting up audio element:', err);
       runProceduralBeat(demoType, bpm);
       return;
     }
   }
 
+  // If no audio URL provided, run high-quality Web Audio procedural beat!
   runProceduralBeat(demoType, bpm);
 }
 
 function runProceduralBeat(demoType: string, bpm: number) {
   const ctx = getAudioContext();
+  if (ctx.state === 'suspended') {
+    ctx.resume().catch(() => {});
+  }
+
+  // Pre-warm audio graph
+  if (masterGain && ctx) {
+    try {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      g.gain.value = 0.0001;
+      osc.connect(g);
+      g.connect(masterGain);
+      osc.start(0);
+      osc.stop(ctx.currentTime + 0.01);
+    } catch (e) {
+      // ignore
+    }
+  }
+
   const secondsPerBeat = 60 / bpm;
   const stepTime = secondsPerBeat / 4; // 16th notes
   let currentStep = 0;
@@ -281,3 +321,4 @@ export function stopDemoBeat() {
   }
   activeLoopType = null;
 }
+

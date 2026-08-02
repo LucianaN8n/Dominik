@@ -250,41 +250,23 @@ export const AddSongModal: React.FC<AddSongModalProps> = ({
             />
           </div>
 
-          {/* AUDIO FILE UPLOAD & GOOGLE DRIVE LINK */}
-          <div className="p-4 bg-[#181818] border border-[#C5A059]/40 rounded-sm space-y-3">
-            <div>
-              <label className="block text-[10px] uppercase font-bold tracking-wider text-[#C5A059] mb-1.5 flex items-center gap-2">
-                <Upload className="w-4 h-4 text-[#C5A059]" />
-                1. Opção: Anexar Arquivo do Computador (.mp3, .wav)
-              </label>
-              <input
-                type="file"
-                accept="audio/*"
-                onChange={handleAudioChange}
-                className="block w-full text-xs text-white/70 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-xs file:font-bold file:uppercase file:bg-[#C5A059] file:text-black hover:file:bg-white cursor-pointer"
-              />
-              {audioFileName && (
-                <p className="text-[11px] text-emerald-400 font-mono mt-1.5 flex items-center gap-1">
-                  <Check className="w-3.5 h-3.5" /> Áudio selecionado: {audioFileName}
-                </p>
-              )}
-            </div>
-
-            <div className="pt-2 border-t border-[#222222]">
-              <label className="block text-[10px] uppercase font-bold tracking-wider text-[#C5A059] mb-1">
-                2. Opção: Cole o Link do Áudio no Google Drive (URL)
-              </label>
-              <input
-                type="url"
-                placeholder="Ex: https://drive.google.com/file/d/.../view"
-                value={audioUrlInput}
-                onChange={(e) => setAudioUrlInput(e.target.value)}
-                className="w-full bg-[#111111] border border-[#222222] text-white p-2.5 focus:border-[#C5A059] focus:outline-none text-xs font-mono"
-              />
-              <p className="text-[10px] text-white/40 mt-1">
-                Cole o link de compartilhamento do seu arquivo MP3 ou WAV no Google Drive.
+          {/* AUDIO FILE UPLOAD */}
+          <div className="p-4 bg-[#181818] border border-[#C5A059]/40 rounded-sm">
+            <label className="block text-[10px] uppercase font-bold tracking-wider text-[#C5A059] mb-2 flex items-center gap-2">
+              <Upload className="w-4 h-4 text-[#C5A059]" />
+              Anexar Arquivo de Áudio / Guia (.mp3, .wav, .m4a)
+            </label>
+            <input
+              type="file"
+              accept="audio/*"
+              onChange={handleAudioChange}
+              className="block w-full text-xs text-white/70 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-xs file:font-bold file:uppercase file:bg-[#C5A059] file:text-black hover:file:bg-white cursor-pointer"
+            />
+            {audioFileName && (
+              <p className="text-[11px] text-emerald-400 font-mono mt-2 flex items-center gap-1">
+                <Check className="w-3.5 h-3.5" /> Áudio selecionado: {audioFileName}
               </p>
-            </div>
+            )}
           </div>
 
           <div>
