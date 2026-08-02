@@ -29,6 +29,7 @@ export const AddSongModal: React.FC<AddSongModalProps> = ({
   const [upcCode, setUpcCode] = useState(initialSong?.upcCode || initialSong?.technicalSheet?.upcCode || '');
   const [iswcCode, setIswcCode] = useState(initialSong?.iswcCode || initialSong?.technicalSheet?.iswcCode || 'T-312.894.100-0');
   const [demoType, setDemoType] = useState<'Trap' | 'TrapSoul' | 'DarkTrap' | 'HipHop'>(initialSong?.demoType || 'TrapSoul');
+  const [spotifyUrl, setSpotifyUrl] = useState<string>(initialSong?.spotifyUrl || '');
 
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioFileName, setAudioFileName] = useState<string>('');
@@ -75,6 +76,7 @@ export const AddSongModal: React.FC<AddSongModalProps> = ({
       upcCode: upcCode.trim() || `789${newSongId.slice(0, 6).replace(/\D/g, '0').padEnd(9, '1')}`,
       featured: true,
       demoType,
+      spotifyUrl: spotifyUrl.trim() || undefined,
       customAudioName: audioFileName || initialSong?.customAudioName,
       hasCustomAudio: !!audioFile || !!initialSong?.hasCustomAudio,
       technicalSheet: {
@@ -248,6 +250,24 @@ export const AddSongModal: React.FC<AddSongModalProps> = ({
               onChange={(e) => setSuggestedArtists(e.target.value)}
               className="w-full bg-[#181818] border border-[#222222] text-white p-2.5 focus:border-[#C5A059] focus:outline-none"
             />
+          </div>
+
+          {/* SPOTIFY LINK INPUT */}
+          <div className="p-4 bg-[#181818] border border-[#1DB954]/40 rounded-sm">
+            <label className="block text-[10px] uppercase font-bold tracking-wider text-[#1DB954] mb-1.5 flex items-center justify-between">
+              <span>Link do Spotify (opcional — quando a música for lançada)</span>
+              <span className="text-[9px] text-white/40 font-mono">https://open.spotify.com/track/...</span>
+            </label>
+            <input
+              type="url"
+              placeholder="Ex: https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT"
+              value={spotifyUrl}
+              onChange={(e) => setSpotifyUrl(e.target.value)}
+              className="w-full bg-[#111111] border border-[#222222] text-emerald-400 p-2.5 focus:border-[#1DB954] focus:outline-none text-xs font-mono"
+            />
+            <p className="text-[10px] text-white/40 mt-1">
+              Cole o link do Spotify quando a faixa for disponibilizada para que o botão "Ouvir no Spotify" redirecione os ouvintes.
+            </p>
           </div>
 
           {/* AUDIO FILE UPLOAD */}

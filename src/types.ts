@@ -47,6 +47,7 @@ export interface Song {
   demoType?: 'Trap' | 'TrapSoul' | 'DarkTrap' | 'HipHop';
   customAudioName?: string;
   hasCustomAudio?: boolean;
+  spotifyUrl?: string;
   technicalSheet?: SongTechnicalSheet;
 }
 

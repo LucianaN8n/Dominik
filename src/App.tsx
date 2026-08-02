@@ -17,8 +17,6 @@ import { ProposalModal } from './components/ProposalModal';
 import { ProducerAreaModal } from './components/ProducerAreaModal';
 import { AuthorAuthModal } from './components/AuthorAuthModal';
 import { AddSongModal } from './components/AddSongModal';
-import { AudioPlayer } from './components/AudioPlayer';
-import { startDemoBeat, stopDemoBeat, setMasterVolume } from './utils/audioSynth';
 import {
   saveCustomAudioToStorage,
   loadAllCustomAudiosFromStorage,
@@ -60,10 +58,6 @@ export default function App() {
     }
     return INITIAL_SONGS;
   });
-
-  const [activeSong, setActiveSong] = useState<Song | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [volume, setVolume] = useState<number>(0.7);
 
   // Author Mode & Modals
   const [isAuthorMode, setIsAuthorMode] = useState<boolean>(() => {
@@ -221,19 +215,6 @@ export default function App() {
           : null
       );
     }
-
-    if (activeSong && activeSong.id === songId) {
-      setActiveSong(prev =>
-        prev
-          ? {
-              ...prev,
-              audioUrl: finalUrl,
-              customAudioName: name,
-              hasCustomAudio: true
-            }
-          : null
-      );
-    }
   };
 
   const handleResetSongAudio = async (songId: string) => {
@@ -266,19 +247,6 @@ export default function App() {
           : null
       );
     }
-
-    if (activeSong && activeSong.id === songId) {
-      setActiveSong(prev =>
-        prev
-          ? {
-              ...prev,
-              audioUrl: initialSong.audioUrl,
-              customAudioName: undefined,
-              hasCustomAudio: false
-            }
-          : null
-      );
-    }
   };
 
   const handleSaveNewSong = async (newSong: Song, audioFile?: File) => {
@@ -300,42 +268,8 @@ export default function App() {
     });
   };
 
-  // Handle play / pause demo track
-  const handlePlayDemo = (song: Song) => {
-    if (activeSong?.id === song.id && isPlaying) {
-      stopDemoBeat();
-      setIsPlaying(false);
-    } else {
-      setActiveSong(song);
-      setIsPlaying(true);
-      startDemoBeat(song.demoType || 'Trap', song.bpm || 130, song.audioUrl);
-    }
-  };
-
-  const handleTogglePlayActive = () => {
-    if (!activeSong && songs.length > 0) {
-      setActiveSong(songs[0]);
-      setIsPlaying(true);
-      startDemoBeat(songs[0].demoType || 'Trap', songs[0].bpm || 130, songs[0].audioUrl);
-      return;
-    }
-
-    if (isPlaying) {
-      stopDemoBeat();
-      setIsPlaying(false);
-    } else if (activeSong) {
-      setIsPlaying(true);
-      startDemoBeat(activeSong.demoType || 'Trap', activeSong.bpm || 130, activeSong.audioUrl);
-    }
-  };
-
-  const handleVolumeChange = (newVol: number) => {
-    setVolume(newVol);
-    setMasterVolume(newVol);
-  };
-
   const handleOpenLicensingForSong = (song?: Song | null) => {
-    setLicensingSong(song || activeSong || songs[0] || null);
+    setLicensingSong(song || songs[0] || null);
     setIsLicensingOpen(true);
   };
 
@@ -371,8 +305,6 @@ export default function App() {
 
         <Catalog
           songs={songs}
-          activePlayingId={isPlaying ? activeSong?.id || null : null}
-          onPlayDemo={handlePlayDemo}
           onViewDetails={(song) => setSelectedSongModal(song)}
           onViewTechnicalSheet={(song) => setTechnicalSheetSong(song)}
           onUpdateAudio={handleUpdateSongAudio}
@@ -400,25 +332,13 @@ export default function App() {
       {/* FOOTER */}
       <Footer />
 
-      {/* PERSISTENT FLOATING AUDIO PLAYER */}
-      <AudioPlayer
-        currentSong={activeSong}
-        isPlaying={isPlaying}
-        onTogglePlay={handleTogglePlayActive}
-        onRequestLicensing={(song) => handleOpenLicensingForSong(song)}
-        volume={volume}
-        onVolumeChange={handleVolumeChange}
-        onUpdateAudio={handleUpdateSongAudio}
-        isAuthorMode={isAuthorMode}
-      />
-
       {/* INDIVIDUAL SONG DETAIL MODAL */}
       <SongModal
         song={selectedSongModal}
         isOpen={!!selectedSongModal}
         onClose={() => setSelectedSongModal(null)}
-        isPlaying={isPlaying && activeSong?.id === selectedSongModal?.id}
-        onPlayDemo={(song) => handlePlayDemo(song)}
+        isPlaying={false}
+        onPlayDemo={() => {}}
         onRequestLicensing={(song) => handleOpenLicensingForSong(song)}
         onOpenTechnicalSheet={(song) => setTechnicalSheetSong(song)}
         onUpdateAudio={handleUpdateSongAudio}

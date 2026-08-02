@@ -242,56 +242,56 @@ export const SongModal: React.FC<SongModalProps> = ({
             </button>
           </div>
 
-          {/* DEDICATED AUDIO DEMO BANNER */}
-          <div className="p-6 bg-gradient-to-r from-[#181818] via-[#1c1a14] to-[#181818] border border-[#C5A059]/40 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-2xl">
+          {/* SPOTIFY INTEGRATION BANNER */}
+          <div className="p-6 bg-gradient-to-r from-[#141414] via-[#1a1a1a] to-[#141414] border border-[#1DB954]/40 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-2xl">
             <div className="flex items-center gap-4 w-full md:w-auto">
-              <button
-                onClick={() => onPlayDemo(song)}
-                className={`w-14 h-14 shrink-0 rounded-full flex items-center justify-center transition-all shadow-xl ${
-                  isPlaying
-                    ? 'bg-[#C5A059] text-black scale-105 ring-4 ring-[#C5A059]/30'
-                    : 'bg-black text-[#C5A059] border-2 border-[#C5A059] hover:bg-[#C5A059] hover:text-black'
-                }`}
-              >
-                {isPlaying ? <Pause className="w-6 h-6 fill-current" /> : <Play className="w-6 h-6 fill-current ml-1" />}
-              </button>
+              <div className="w-12 h-12 rounded-full bg-[#1DB954]/15 border border-[#1DB954]/50 flex items-center justify-center shrink-0">
+                <svg className="w-6 h-6 text-[#1DB954]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.38-1.38 9.78-.72 13.5 1.56.36.24.54.84.241 1.26zm.12-3.36C15.241 8.4 8.82 8.16 5.16 9.301c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.26-1.26 11.28-1.02 15.72 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+                </svg>
+              </div>
 
               <div>
                 <div className="flex flex-wrap items-center gap-2 mb-1">
-                  <span className="bg-[#C5A059] text-black text-[9px] font-bold uppercase tracking-[0.2em] px-2 py-0.5">
-                    Demo de Áudio HD
+                  <span className="bg-[#1DB954] text-black text-[9px] font-bold uppercase tracking-[0.2em] px-2 py-0.5">
+                    Spotify Official
                   </span>
                   {song.artist && (
                     <span className="text-[10px] text-white/60 uppercase font-mono">
-                      Cantora / Voz: {song.artist}
-                    </span>
-                  )}
-                  {currentAudioName && (
-                    <span className="text-[10px] text-emerald-400 bg-emerald-950/60 border border-emerald-500/40 px-2 py-0.5 font-mono flex items-center gap-1">
-                      <Check className="w-3 h-3 text-emerald-400" /> Áudio Anexado: {currentAudioName}
+                      Artista / Voz: {song.artist}
                     </span>
                   )}
                 </div>
                 <h4 className="font-serif italic text-lg sm:text-xl text-white">
-                  {song.title} — Audio Demo Original
+                  {song.title} — Lançamento Digital
                 </h4>
-                <p className="text-xs text-white/50 font-light mt-0.5">
-                  Arranjo autoral completo em Trap Soul com linha de graves 808, sintetizadores e guia vocal.
+                <p className="text-xs text-white/60 font-light mt-0.5">
+                  {song.spotifyUrl
+                    ? 'Faixa oficial disponível para audição e streaming no Spotify.'
+                    : 'Esta composição estará liberada em breve no Spotify e principais plataformas streaming.'}
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
-              <button
-                onClick={() => onPlayDemo(song)}
-                className={`px-5 py-2.5 font-bold text-xs uppercase tracking-[0.2em] whitespace-nowrap border transition-all ${
-                  isPlaying
-                    ? 'bg-[#C5A059] text-black border-[#C5A059]'
-                    : 'bg-black text-[#C5A059] border-[#C5A059] hover:bg-[#C5A059] hover:text-black'
-                }`}
-              >
-                {isPlaying ? 'Pausar Reprodução' : 'Ouvir Demo'}
-              </button>
+            <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end shrink-0">
+              {song.spotifyUrl ? (
+                <a
+                  href={song.spotifyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 font-bold text-xs uppercase tracking-[0.2em] whitespace-nowrap bg-[#1DB954] hover:bg-[#1ed760] text-black transition-all flex items-center gap-2 shadow-xl"
+                >
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.38-1.38 9.78-.72 13.5 1.56.36.24.54.84.241 1.26zm.12-3.36C15.241 8.4 8.82 8.16 5.16 9.301c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.26-1.26 11.28-1.02 15.72 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+                  </svg>
+                  <span>Ouvir no Spotify</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              ) : (
+                <div className="px-5 py-2.5 border border-[#C5A059]/40 bg-[#C5A059]/10 text-[#C5A059] font-mono text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                  <span>Em Breve no Spotify</span>
+                </div>
+              )}
             </div>
           </div>
 

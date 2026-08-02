@@ -1,33 +1,30 @@
 import React from 'react';
 import { Song } from '../types';
-import { Play, Pause, Info, Disc3, Upload, Check, FileSpreadsheet } from 'lucide-react';
+import { Info, FileSpreadsheet, ExternalLink, Radio } from 'lucide-react';
 
 interface SongCardProps {
   song: Song;
-  isPlaying: boolean;
-  onPlayDemo: (song: Song) => void;
   onViewDetails: (song: Song) => void;
   onViewTechnicalSheet?: (song: Song) => void;
   onUpdateAudio?: (songId: string, newAudioUrl: string, file?: File | Blob, fileName?: string) => void;
   isAuthorMode?: boolean;
 }
 
+const SpotifyIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.38-1.38 9.78-.72 13.5 1.56.36.24.54.84.241 1.26zm.12-3.36C15.241 8.4 8.82 8.16 5.16 9.301c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.26-1.26 11.28-1.02 15.72 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+  </svg>
+);
+
 export const SongCard: React.FC<SongCardProps> = ({
   song,
-  isPlaying,
-  onPlayDemo,
   onViewDetails,
   onViewTechnicalSheet,
-  onUpdateAudio,
   isAuthorMode
 }) => {
   return (
-    <div
-      className={`bg-[#111111] border ${
-        isPlaying ? 'border-[#C5A059] border-l-4' : 'border-[#222222] border-l-2 border-l-[#C5A059]/60'
-      } hover:border-[#C5A059] transition-all duration-300 flex flex-col group hover:bg-[#151515] shadow-xl`}
-    >
-      {/* COVER ART WITH HOVER PLAY OVERLAY */}
+    <div className="bg-[#111111] border border-[#222222] border-l-2 border-l-[#C5A059] hover:border-[#C5A059] transition-all duration-300 flex flex-col group hover:bg-[#151515] shadow-xl">
+      {/* COVER ART */}
       <div className="relative aspect-video sm:aspect-square w-full overflow-hidden bg-[#0d0d0d] border-b border-[#222222]">
         <img
           src={song.coverUrl}
@@ -42,39 +39,12 @@ export const SongCard: React.FC<SongCardProps> = ({
           <div className="bg-black/90 border border-[#C5A059]/50 px-2.5 py-0.5 text-[9px] font-semibold tracking-[0.2em] text-[#C5A059] uppercase">
             {song.genre}
           </div>
-          {song.hasCustomAudio ? (
-            <div className="bg-emerald-500 text-black font-bold px-2 py-0.5 text-[8px] tracking-[0.15em] uppercase shadow-lg flex items-center gap-1">
-              <Check className="w-2.5 h-2.5 stroke-[3]" />
-              <span>Áudio Anexado</span>
-            </div>
-          ) : song.audioUrl ? (
-            <div className="bg-[#C5A059] text-black px-2 py-0.5 text-[8px] font-bold tracking-[0.15em] uppercase shadow-lg">
-              Demo HD
-            </div>
-          ) : null}
         </div>
 
         {/* BPM & KEY BADGE */}
         <div className="absolute top-3 right-3 bg-black/90 border border-[#222222] px-2.5 py-0.5 text-[9px] font-mono text-white/60 tracking-wider">
           {song.bpm} BPM | {song.key}
         </div>
-
-        {/* PLAY DEMO FLOATING OVERLAY BUTTON */}
-        <button
-          onClick={() => onPlayDemo(song)}
-          className={`absolute bottom-4 right-4 w-11 h-11 flex items-center justify-center transition-all duration-300 shadow-2xl ${
-            isPlaying
-              ? 'bg-[#C5A059] text-black scale-105'
-              : 'bg-black/90 hover:bg-[#C5A059] text-[#C5A059] hover:text-black border border-[#C5A059]'
-          }`}
-          title={isPlaying ? 'Pausar Demo' : 'Ouvir Demo'}
-        >
-          {isPlaying ? (
-            <Pause className="w-4 h-4 fill-current" />
-          ) : (
-            <Play className="w-4 h-4 fill-current ml-0.5" />
-          )}
-        </button>
       </div>
 
       {/* CONTENT */}
@@ -91,13 +61,6 @@ export const SongCard: React.FC<SongCardProps> = ({
               </span>
             )}
           </div>
-
-          {/* CUSTOM AUDIO INDICATOR IF SAVED */}
-          {song.hasCustomAudio && (
-            <div className="mb-3 text-[10px] text-emerald-400 bg-emerald-950/60 border border-emerald-500/40 px-2 py-1 font-mono flex items-center justify-between">
-              <span className="truncate">✓ Salvo: {song.customAudioName || 'áudio_personalizado.mp3'}</span>
-            </div>
-          )}
 
           {/* MOOD TAGS */}
           <div className="flex flex-wrap gap-1.5 mb-4">
@@ -121,113 +84,49 @@ export const SongCard: React.FC<SongCardProps> = ({
             </div>
           </div>
 
-          {/* AUDIO TRACK WAVEFORM / PLAYER STRIP */}
-          <div
-            onClick={() => onPlayDemo(song)}
-            className={`mb-4 p-2.5 border transition-all cursor-pointer flex items-center justify-between gap-3 ${
-              isPlaying
-                ? 'bg-[#C5A059]/15 border-[#C5A059]'
-                : 'bg-[#0d0d0d] border-[#222222] hover:border-[#C5A059]/60'
-            }`}
-            title={isPlaying ? 'Pausar reprodução' : 'Tocar reprodução desta faixa'}
-          >
-            <div className="flex items-center gap-2 min-w-0">
-              <div
-                className={`w-7 h-7 rounded flex items-center justify-center shrink-0 ${
-                  isPlaying ? 'bg-[#C5A059] text-black' : 'bg-[#1a1a1a] text-[#C5A059]'
-                }`}
+          {/* SPOTIFY STATUS BOX */}
+          <div className="mb-4">
+            {song.spotifyUrl ? (
+              <a
+                href={song.spotifyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full p-2.5 bg-[#1DB954]/10 hover:bg-[#1DB954] border border-[#1DB954]/40 hover:border-[#1DB954] text-[#1DB954] hover:text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all rounded-sm shadow-md"
               >
-                {isPlaying ? (
-                  <Pause className="w-3.5 h-3.5 fill-current" />
-                ) : (
-                  <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
-                )}
-              </div>
-              <div className="truncate">
-                <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/90 block truncate">
-                  {isPlaying ? 'Reproduzindo Faixa Demo' : 'Faixa de Áudio Demo'}
+                <SpotifyIcon className="w-4 h-4 fill-current shrink-0" />
+                <span>Ouvir no Spotify</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            ) : (
+              <div className="w-full p-2.5 bg-[#181818] border border-white/10 text-white/70 text-xs font-semibold tracking-wider flex items-center justify-between gap-2 rounded-sm">
+                <div className="flex items-center gap-2">
+                  <SpotifyIcon className="w-4 h-4 text-[#1DB954] shrink-0" />
+                  <span className="text-[11px] uppercase tracking-wider">Spotify</span>
+                </div>
+                <span className="text-[10px] font-mono text-[#C5A059] uppercase tracking-widest bg-[#C5A059]/10 px-2 py-0.5 border border-[#C5A059]/30">
+                  Em Breve
                 </span>
-                <span className="text-[9px] text-white/50 block font-mono truncate">
-                  {song.customAudioName ? `MP3: ${song.customAudioName}` : `${song.bpm} BPM • ${song.key}`}
-                </span>
               </div>
-            </div>
-
-            {/* SOUNDWAVE / EQUALIZER BARS */}
-            <div className="flex items-end gap-0.5 h-5 shrink-0 px-1">
-              {(song.audioFrequencyProfile || [50, 80, 100, 60, 90, 75, 45, 85, 95, 70]).slice(0, 8).map((h, i) => (
-                <div
-                  key={i}
-                  className={`w-1 rounded-full transition-all duration-300 ${
-                    isPlaying ? 'bg-[#C5A059] animate-pulse' : 'bg-white/20'
-                  }`}
-                  style={{
-                    height: isPlaying ? `${Math.max(16, (h / 100) * 16)}px` : '6px',
-                    animationDelay: `${i * 80}ms`
-                  }}
-                />
-              ))}
-            </div>
+            )}
           </div>
         </div>
 
-        {/* BUTTONS: OUVIR, ANEXAR ÁUDIO, FICHA TÉCNICA, DETALHES */}
-        <div className={`grid gap-1.5 pt-2 border-t border-[#222222] ${isAuthorMode ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3'}`}>
-          <button
-            onClick={() => onPlayDemo(song)}
-            className={`py-2 px-1 border text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-all ${
-              isPlaying
-                ? 'bg-[#C5A059] text-black border-[#C5A059]'
-                : 'bg-[#181818] hover:bg-[#C5A059] text-white hover:text-black border-[#222222] hover:border-[#C5A059]'
-            }`}
-          >
-            {isPlaying ? (
-              <>
-                <Disc3 className="w-3 h-3 animate-spin shrink-0" />
-                <span>Tocando</span>
-              </>
-            ) : (
-              <>
-                <Play className="w-3 h-3 text-[#C5A059] group-hover:text-black shrink-0" />
-                <span>Ouvir</span>
-              </>
-            )}
-          </button>
-
-          {isAuthorMode && (
-            <label className="py-2 px-1 border border-[#C5A059]/40 hover:border-[#C5A059] bg-[#181818] text-[#C5A059] hover:text-white text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 cursor-pointer transition-all" title="Anexar/Atualizar Áudio Demo">
-              <Upload className="w-3 h-3 shrink-0" />
-              <span>Anexar</span>
-              <input
-                type="file"
-                accept="audio/*,.mp3,.wav,.m4a,.ogg"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file && onUpdateAudio) {
-                    const url = URL.createObjectURL(file);
-                    onUpdateAudio(song.id, url, file, file.name);
-                    onPlayDemo({ ...song, audioUrl: url, customAudioName: file.name, hasCustomAudio: true });
-                  }
-                }}
-              />
-            </label>
-          )}
-
+        {/* BUTTONS: FICHA TÉCNICA, DETALHES */}
+        <div className="grid grid-cols-2 gap-2 pt-3 border-t border-[#222222]">
           <button
             onClick={() => onViewTechnicalSheet ? onViewTechnicalSheet(song) : onViewDetails(song)}
-            className="py-2 px-1 border border-[#C5A059] bg-[#C5A059]/15 hover:bg-[#C5A059] text-[#C5A059] hover:text-black text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-all shadow-md"
-            title="Ver, Preencher e Editar Ficha Técnica da Obra"
+            className="py-2.5 px-2 border border-[#C5A059] bg-[#C5A059]/15 hover:bg-[#C5A059] text-[#C5A059] hover:text-black text-[10px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-md"
+            title="Ver Ficha Técnica da Obra"
           >
-            <FileSpreadsheet className="w-3 h-3 shrink-0" />
+            <FileSpreadsheet className="w-3.5 h-3.5 shrink-0" />
             <span>Ficha Técnica</span>
           </button>
 
           <button
             onClick={() => onViewDetails(song)}
-            className="py-2 px-1 border border-[#222222] hover:border-white/40 bg-black text-white/70 hover:text-white text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-all"
+            className="py-2.5 px-2 border border-[#222222] hover:border-white/40 bg-black text-white/80 hover:text-white text-[10px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all"
           >
-            <Info className="w-3 h-3 text-[#C5A059] shrink-0" />
+            <Info className="w-3.5 h-3.5 text-[#C5A059] shrink-0" />
             <span>Detalhes</span>
           </button>
         </div>
@@ -235,4 +134,3 @@ export const SongCard: React.FC<SongCardProps> = ({
     </div>
   );
 };
-

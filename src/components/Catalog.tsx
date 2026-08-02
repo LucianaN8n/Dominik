@@ -5,8 +5,6 @@ import { Filter, Music, Sparkles, SlidersHorizontal, Search } from 'lucide-react
 
 interface CatalogProps {
   songs: Song[];
-  activePlayingId: string | null;
-  onPlayDemo: (song: Song) => void;
   onViewDetails: (song: Song) => void;
   onViewTechnicalSheet?: (song: Song) => void;
   onUpdateAudio?: (songId: string, newAudioUrl: string, file?: File | Blob, fileName?: string) => void;
@@ -18,8 +16,6 @@ interface CatalogProps {
 
 export const Catalog: React.FC<CatalogProps> = ({
   songs,
-  activePlayingId,
-  onPlayDemo,
   onViewDetails,
   onViewTechnicalSheet,
   onUpdateAudio,
@@ -173,8 +169,6 @@ export const Catalog: React.FC<CatalogProps> = ({
               <SongCard
                 key={song.id}
                 song={song}
-                isPlaying={activePlayingId === song.id}
-                onPlayDemo={onPlayDemo}
                 onViewDetails={onViewDetails}
                 onViewTechnicalSheet={onViewTechnicalSheet}
                 onUpdateAudio={onUpdateAudio}
