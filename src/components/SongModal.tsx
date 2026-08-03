@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Song } from '../types';
-import { X, Play, Pause, Disc3, ShieldCheck, Sparkles, FileText, ArrowUpRight, Copy, Check, Share2, Upload, Music, ArrowLeft, FileSpreadsheet } from 'lucide-react';
+import { X, Play, Pause, Disc3, ShieldCheck, Sparkles, FileText, ArrowUpRight, Copy, Check, Share2, Upload, Music, ArrowLeft, FileSpreadsheet, Edit3, Save } from 'lucide-react';
 
 interface SongModalProps {
   song: Song | null;
@@ -13,6 +13,8 @@ interface SongModalProps {
   onUpdateAudio?: (songId: string, newAudioUrl: string, file?: File | Blob, fileName?: string) => void;
   onResetAudio?: (songId: string) => void;
   isAuthorMode?: boolean;
+  onEditSong?: (song: Song) => void;
+  onSaveSong?: (song: Song) => void;
 }
 
 export const SongModal: React.FC<SongModalProps> = ({
@@ -25,10 +27,21 @@ export const SongModal: React.FC<SongModalProps> = ({
   onOpenTechnicalSheet,
   onUpdateAudio,
   onResetAudio,
-  isAuthorMode
+  isAuthorMode,
+  onEditSong,
+  onSaveSong
 }) => {
   const [copied, setCopied] = useState(false);
   const [saveSuccessMsg, setSaveSuccessMsg] = useState<string | null>(null);
+  const [isEditingLyrics, setIsEditingLyrics] = useState(false);
+  const [editedLyrics, setEditedLyrics] = useState('');
+
+  useEffect(() => {
+    if (song) {
+      setEditedLyrics(song.lyricsSnippet || '');
+      setIsEditingLyrics(false);
+    }
+  }, [song]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -41,6 +54,16 @@ export const SongModal: React.FC<SongModalProps> = ({
   }, [isOpen, onClose]);
 
   if (!isOpen || !song) return null;
+
+  const handleSaveInlineLyrics = () => {
+    if (song && onSaveSong) {
+      const updated = { ...song, lyricsSnippet: editedLyrics };
+      onSaveSong(updated);
+      setIsEditingLyrics(false);
+      setSaveSuccessMsg('Letra da música atualizada e salva com sucesso!');
+      setTimeout(() => setSaveSuccessMsg(null), 4000);
+    }
+  };
 
   const currentAudioName = song.customAudioName;
 
@@ -79,6 +102,19 @@ export const SongModal: React.FC<SongModalProps> = ({
         <div className="relative w-full max-w-4xl bg-[#111111] border border-[#222222] border-l-4 border-l-[#C5A059] shadow-2xl">
           {/* BACK TO CATALOG & CLOSE BUTTON BAR */}
           <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+            {isAuthorMode && onEditSong && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onEditSong(song);
+                }}
+                className="px-3.5 py-2 bg-[#C5A059] hover:bg-white text-black font-bold text-[11px] uppercase tracking-widest transition-all flex items-center gap-1.5 shadow-lg"
+                title="Editar Obra e Letra Completa"
+              >
+                <Edit3 className="w-4 h-4" />
+                <span className="hidden sm:inline">Editar Obra / Letra</span>
+              </button>
+            )}
             <button
               onClick={onClose}
               className="px-3.5 py-2 bg-black/80 hover:bg-[#C5A059] hover:text-black border border-[#222222] hover:border-[#C5A059] text-white text-[11px] font-bold uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg"
@@ -361,17 +397,17 @@ export const SongModal: React.FC<SongModalProps> = ({
             </div>
           )}
 
-          {/* MOOD & SUGGESTED ARTISTS */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* MOOD, INSTRUMENTOS, TAGS & SUGGESTED ARTISTS */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-[#181818] p-5 border border-[#222222]">
               <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#C5A059] block mb-2">
-                Mood & Vibe
+                Mood & Clima
               </span>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {moodList.map((m, idx) => (
                   <span
                     key={idx}
-                    className="bg-black border border-[#222222] text-white/70 text-xs px-3 py-1 uppercase tracking-wider"
+                    className="bg-black border border-[#222222] text-white/80 text-[11px] px-2.5 py-1 uppercase tracking-wider"
                   >
                     {m}
                   </span>
@@ -381,27 +417,109 @@ export const SongModal: React.FC<SongModalProps> = ({
 
             <div className="bg-[#181818] p-5 border border-[#222222]">
               <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#C5A059] block mb-2">
-                Artistas Sugeridos para Gravação
+                Instrumentos & Arranjos
               </span>
-              <div className="flex flex-wrap gap-2 text-xs text-white font-medium italic">
-                {suggestedArtistsList.map((artist, idx) => (
-                  <span key={idx} className="bg-black border border-[#C5A059]/40 text-[#C5A059] px-3 py-1">
-                    {artist}
+              <div className="flex flex-wrap gap-1.5">
+                {(song.instruments && song.instruments.length > 0
+                  ? song.instruments
+                  : ['Bass 808 Sub', 'Sintetizadores', 'Hi-hats Duplos', 'Guia Vocal Clean']
+                ).map((inst, idx) => (
+                  <span
+                    key={idx}
+                    className="bg-black border border-[#C5A059]/30 text-white/90 text-[11px] px-2.5 py-1"
+                  >
+                    {inst}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#181818] p-5 border border-[#222222]">
+              <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#C5A059] block mb-2">
+                Tags do Catálogo
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {(song.tags && song.tags.length > 0
+                  ? song.tags
+                  : ['Trap', 'DarkTrap', 'Mindset', 'Sucesso']
+                ).map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="bg-[#C5A059]/10 border border-[#C5A059]/40 text-[#C5A059] text-[11px] font-mono px-2 py-0.5"
+                  >
+                    #{tag}
                   </span>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* STORY & CONCEPT */}
+          {/* ARTISTAS SUGERIDOS (NACIONAL & INTERNACIONAL) */}
+          <div className="bg-[#181818] p-5 border border-[#222222] space-y-3">
+            <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#C5A059] block">
+              Artistas Sugeridos para Gravação e Parceria
+            </span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <span className="text-[10px] uppercase font-bold text-emerald-400 block mb-1.5 font-mono">
+                  ★ Mercado Nacional
+                </span>
+                <div className="flex flex-wrap gap-1.5 text-xs text-white font-medium italic">
+                  {(song.suggestedArtistsNational && song.suggestedArtistsNational.length > 0
+                    ? song.suggestedArtistsNational
+                    : suggestedArtistsList
+                  ).map((artist, idx) => (
+                    <span key={idx} className="bg-black border border-emerald-500/40 text-emerald-300 px-3 py-1">
+                      {artist}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <span className="text-[10px] uppercase font-bold text-sky-400 block mb-1.5 font-mono">
+                  ★ Mercado Internacional
+                </span>
+                <div className="flex flex-wrap gap-1.5 text-xs text-white font-medium italic">
+                  {(song.suggestedArtistsInternational && song.suggestedArtistsInternational.length > 0
+                    ? song.suggestedArtistsInternational
+                    : ['Travis Scott', 'Drake', 'Future', '21 Savage', 'Metro Boomin']
+                  ).map((artist, idx) => (
+                    <span key={idx} className="bg-black border border-sky-500/40 text-sky-300 px-3 py-1">
+                      {artist}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* REGISTRO DA OBRA / EDA STATUS */}
+          <div className="p-4 bg-black/60 border border-[#C5A059]/40 font-mono text-xs flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span className="text-white">
+                <strong>Nº do Registro da Obra:</strong>{' '}
+                <span className="text-[#C5A059]">
+                  {song.registrationStatus || 'Biblioteca Nacional (EDA) Nº 312.894.107'}
+                </span>
+              </span>
+            </div>
+            <div className="flex items-center gap-3 text-[11px] text-white/60">
+              <span>ISRC: <strong className="text-emerald-400">{song.isrcCode || 'BR-DMK-26-00007'}</strong></span>
+              <span>ISWC: <strong className="text-amber-400">{song.iswcCode || 'T-312.894.107-0'}</strong></span>
+            </div>
+          </div>
+
+          {/* CATALOG DESCRIPTION, STORY & CONCEPT */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
               <h3 className="font-serif italic text-xl font-normal text-white flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-[#C5A059]" />
-                História da Música
+                Descrição para o Catálogo
               </h3>
-              <p className="text-xs text-white/70 font-light leading-relaxed bg-[#181818] p-5 border border-[#222222] italic">
-                {song.history}
+              <p className="text-xs text-white/80 font-light leading-relaxed bg-[#181818] p-5 border border-[#222222] italic border-l-2 border-l-[#C5A059]">
+                {song.catalogDescription || song.history}
               </p>
             </div>
 
@@ -421,33 +539,89 @@ export const SongModal: React.FC<SongModalProps> = ({
             </div>
           </div>
 
-          {/* LYRICS SNIPPET */}
+          {/* LYRICS SNIPPET / COMPLETE LYRICS WITH AUTHOR EDITING */}
           <div className="space-y-3">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <h3 className="font-serif italic text-xl font-normal text-white flex items-center gap-2">
                 <FileText className="w-4 h-4 text-[#C5A059]" />
-                Trecho da Letra Autoral
-              </h3>
-              <button
-                onClick={handleCopyLyrics}
-                className="text-xs text-white/50 hover:text-[#C5A059] flex items-center gap-1.5 transition-colors"
-              >
-                {copied ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400 font-medium">Copiado!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Copiar Letra</span>
-                  </>
+                <span>Letra Autoral da Obra</span>
+                {isAuthorMode && (
+                  <span className="text-[9px] bg-[#C5A059] text-black font-bold uppercase tracking-wider px-2 py-0.5 ml-2 font-mono">
+                    Modo Autora (Editável)
+                  </span>
                 )}
-              </button>
+              </h3>
+              
+              <div className="flex items-center gap-3">
+                {isAuthorMode && (
+                  <button
+                    onClick={() => {
+                      if (!isEditingLyrics) {
+                        setEditedLyrics(song.lyricsSnippet || '');
+                        setIsEditingLyrics(true);
+                      } else {
+                        setIsEditingLyrics(false);
+                      }
+                    }}
+                    className="text-xs text-[#C5A059] hover:text-white font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors border border-[#C5A059]/40 px-3 py-1 bg-[#C5A059]/10"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" />
+                    <span>{isEditingLyrics ? 'Cancelar Edição' : 'Editar Letra'}</span>
+                  </button>
+                )}
+
+                <button
+                  onClick={handleCopyLyrics}
+                  className="text-xs text-white/50 hover:text-[#C5A059] flex items-center gap-1.5 transition-colors"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-emerald-400 font-medium">Copiado!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copiar Letra</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
-            <pre className="bg-[#181818] p-6 border border-[#222222] font-sans text-xs sm:text-sm text-white/80 whitespace-pre-line leading-relaxed italic border-l-4 border-l-[#C5A059]">
-              {song.lyricsSnippet}
-            </pre>
+
+            {isEditingLyrics ? (
+              <div className="p-4 bg-[#141414] border-2 border-[#C5A059] space-y-3 animate-in fade-in">
+                <label className="block text-[10px] uppercase font-bold tracking-widest text-[#C5A059] font-mono">
+                  Edição Direta da Letra (Luciana Domingos)
+                </label>
+                <textarea
+                  rows={14}
+                  value={editedLyrics}
+                  onChange={(e) => setEditedLyrics(e.target.value)}
+                  className="w-full bg-[#0A0A0A] border border-[#333333] text-white p-4 font-mono text-xs leading-relaxed focus:border-[#C5A059] focus:outline-none"
+                  placeholder="Cole ou altere a letra da música aqui..."
+                />
+                <div className="flex justify-end gap-3 pt-2">
+                  <button
+                    onClick={() => setIsEditingLyrics(false)}
+                    className="px-4 py-2 bg-black border border-[#333333] text-white/70 hover:text-white text-xs font-bold uppercase"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    onClick={handleSaveInlineLyrics}
+                    className="px-6 py-2 bg-[#C5A059] hover:bg-white text-black text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg"
+                  >
+                    <Save className="w-4 h-4" />
+                    <span>Salvar Alterações da Letra</span>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <pre className="bg-[#181818] p-6 border border-[#222222] font-sans text-xs sm:text-sm text-white/80 whitespace-pre-line leading-relaxed italic border-l-4 border-l-[#C5A059]">
+                {song.lyricsSnippet}
+              </pre>
+            )}
           </div>
 
           {/* LICENSING FOOTER ACTION BAR */}

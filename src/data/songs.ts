@@ -7,6 +7,8 @@ import codigoSupremoCover from '../assets/images/cover_codigo_supremo_1785521329
 import modoImperadorCover from '../assets/images/cover_modo_imperador_1785521343111.jpg';
 import efeitoMagnetoCover from '../assets/images/cover_efeito_magneto_1785521353343.jpg';
 
+export const codigoInvictoCover = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800"><defs><linearGradient id="invictoBg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%23020205"/><stop offset="40%" stop-color="%230d0914"/><stop offset="100%" stop-color="%23000000"/></linearGradient><linearGradient id="invictoGold" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%23FFFFFF"/><stop offset="25%" stop-color="%23FCE880"/><stop offset="60%" stop-color="%23C5A059"/><stop offset="100%" stop-color="%237A5B22"/></linearGradient><linearGradient id="cyanGold" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="%23C5A059"/><stop offset="50%" stop-color="%23FFFFFF"/><stop offset="100%" stop-color="%23C5A059"/></linearGradient><radialGradient id="invictoGlow" cx="50%" cy="40%" r="55%"><stop offset="0%" stop-color="%23C5A059" stop-opacity="0.45"/><stop offset="50%" stop-color="%2361481c" stop-opacity="0.15"/><stop offset="100%" stop-color="%23000000" stop-opacity="0"/></radialGradient></defs><rect width="800" height="800" fill="url(%23invictoBg)"/><circle cx="400" cy="350" r="320" fill="url(%23invictoGlow)"/><g opacity="0.15"><path d="M0,100 L800,100 M0,200 L800,200 M0,300 L800,300 M0,400 L800,400 M0,500 L800,500 M0,600 L800,600 M0,700 L800,700" stroke="%23C5A059" stroke-width="1"/><path d="M100,0 L100,800 M200,0 L200,800 M300,0 L300,800 M400,0 L400,800 M500,0 L500,800 M600,0 L600,800 M700,0 L700,800" stroke="%23C5A059" stroke-width="1"/></g><rect x="30" y="30" width="740" height="740" fill="none" stroke="url(%23invictoGold)" stroke-width="3"/><rect x="45" y="45" width="710" height="710" fill="none" stroke="%23C5A059" stroke-width="1" stroke-dasharray="6 6" opacity="0.6"/><g transform="translate(400, 330)"><polygon points="0,-160 130,-70 80,120 0,160 -80,120 -130,-70" fill="none" stroke="url(%23invictoGold)" stroke-width="5"/><polygon points="0,-130 100,-50 60,95 0,130 -60,95 -100,-50" fill="none" stroke="%23FFFFFF" stroke-width="1.5" opacity="0.8"/><path d="M-50,20 L0,-100 L50,20 L25,20 L25,70 L-25,70 L-25,20 Z" fill="url(%23invictoGold)"/><circle cx="0" cy="-30" r="18" fill="%23000000" stroke="url(%23invictoGold)" stroke-width="3"/><path d="M-10,-30 L10,-30 M0,-40 L0,-20" stroke="url(%23invictoGold)" stroke-width="3"/></g><text x="400" y="575" font-family="Georgia, serif" font-size="46" font-weight="900" fill="url(%23invictoGold)" text-anchor="middle" letter-spacing="7">CÓDIGO INVICTO</text><text x="400" y="620" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="%23FFFFFF" opacity="0.9" text-anchor="middle" letter-spacing="10">DOMINIK</text><rect x="230" y="650" width="340" height="32" fill="%23C5A059" opacity="0.15" stroke="%23C5A059" stroke-width="1"/><text x="400" y="671" font-family="monospace" font-size="12" font-weight="700" fill="%23C5A059" text-anchor="middle" letter-spacing="4">DARK TRAP • EDITAL EXCLUSIVO 2026</text></svg>`;
+
 export const INITIAL_SONGS: Song[] = [
   {
     id: 'frequencia-da-manifestacao',
@@ -566,6 +568,109 @@ Efeito Magneto!`,
       mixMaster: 'Dominik Studios (São Paulo, BR)',
       rightsOwner: 'Luciana Domingos & Dominik Records',
       notes: 'Obra autoral por Luciana Domingos com produção e arranjos por Dominik.'
+    }
+  },
+  {
+    id: 'codigo-invicto',
+    code: 'DP-007',
+    title: 'Código Invicto',
+    genre: 'Trap / Dark Trap',
+    composer: 'Luciana Domingos',
+    artist: 'Dominik',
+    mood: ['Sucesso', 'Superação', 'Energia', 'Poder', 'Prosperidade'],
+    suggestedArtists: ['Matuê', 'WIU', 'Veigh', 'Teto', 'L7NNON', 'Orochi'],
+    suggestedArtistsNational: ['Matuê', 'WIU', 'Veigh', 'Teto', 'L7NNON', 'Orochi', 'KayBlack', 'TZ da Coronel'],
+    suggestedArtistsInternational: ['Travis Scott', 'Drake', 'Future', '21 Savage', 'Metro Boomin', 'Gunna'],
+    instruments: ['Bass 808 Sub Heavy', 'Sintetizadores de Onda Analógica', 'Hi-hats Duplos Trap', 'Snare Roll', 'Guia Vocal Clean'],
+    tags: ['Trap', 'DarkTrap', 'Ostentação', 'Superação', 'Mindset', 'Sucesso', 'CódigoInvicto'],
+    coverUrl: codigoInvictoCover,
+    history: 'Composição autoral por Luciana Domingos desenvolvida com linha de graves marcante de Trap, sintetizadores e narrativa sobre liderança, superação de bloqueios mentais e mentalidade invencível.',
+    concept: 'Um manifesto de poder, foco e autoconfiança inabalável. Frequência do milhão, energia pura e superação no topo do cenário urbano.',
+    catalogDescription: 'Faixa de alta pressão sonora para o mercado urbano. Apresenta o manifesto do Código Invicto com graves 808 potentes, atmosfera de luxo sombrio e refrão de altíssimo apelo para plataformas de streaming e shows ao vivo.',
+    language: 'Português (Brasil)',
+    bpm: 132,
+    key: 'Ré Menor (Dm)',
+    commercialPotential: 'Altíssimo potencial comercial para álbuns de Trap, aberturas de turnês e campanhas de impacto urbano.',
+    lyricsSnippet: `[Intro]
+Dominik.
+Conexão direta.
+Sem espaço pro erro.
+Sente o choque na pele.
+Três, dois, um...
+Vai!
+
+[Verse 1]
+Grave quebrando o concreto da rua, ahn
+Minha chegada vira o medo da sua, olha lá
+Voz limpa cortando a barreira
+Nossa estrutura toma a cadeira
+Eu não fico no quase
+Meu mapa já mudou de fase
+Olha pro alto, o império tá feito
+Sente o peso do grave no peito
+
+[Pre-Chorus]
+O som tá batendo, a mente estalou
+O ímã do topo dentro de nós ligou
+Acelera o pulso, o peito vibrando
+A força subindo, tudo alinhando
+Sente a pressão, o chão vai ceder
+Ninguém segura o que vai acontecer
+
+[Chorus]
+Código invicto
+É o estouro da banca
+Puxando a riqueza que a mente arranca
+Aura dourada no meio do caos
+Deixando pra trás os bloqueios mentais
+Código invicto
+Energia pura
+Frequência do milhão no alto da altura
+Sente o impacto, assina o sucesso
+Ninguém para o nosso progresso
+
+[Verse 2]
+Notas voando, a conta entupida
+Luz de quinhentos mudando a vida
+Quem tá de fora não aguenta o barulho
+Dominik no comando, quebrando o orgulho
+Grave na caixa batendo pesado
+O mundo já é meu, tá decretado
+Eu vi o medo bater e sair
+Agora é meu nome que faz o futuro girar
+
+[Outro]
+Tá feito.
+Tá na mão.
+Código invicto...
+Ativado.
+Dominik.
+Vai!`,
+    registrationStatus: 'Registro da Obra: Biblioteca Nacional (EDA) | Dominik Publishing (Nº 312.894.107)',
+    isrcCode: 'BR-DMK-26-00007',
+    upcCode: '7891000260007',
+    iswcCode: 'T-312.894.107-0',
+    featured: true,
+    demoType: 'DarkTrap',
+    audioUrl: '/audio/frequencia_manifestacao_demo.wav',
+    technicalSheet: {
+      title: 'Código Invicto',
+      composer: 'Luciana Domingos',
+      producers: 'Dominik',
+      arrangers: 'Dominik',
+      performers: 'Dominik',
+      publishers: 'Dominik Publishing',
+      isrcCode: 'BR-DMK-26-00007',
+      upcCode: '7891000260007',
+      iswcCode: 'T-312.894.107-0',
+      edaRegistration: 'Biblioteca Nacional (EDA) Nº 312.894.107',
+      releaseYear: '2026',
+      genreDetails: 'Trap / Dark Trap',
+      bpm: 132,
+      key: 'Ré Menor (Dm)',
+      mixMaster: 'Dominik Studios (São Paulo, BR)',
+      rightsOwner: 'Luciana Domingos & Dominik Records',
+      notes: 'Obra 100% autoral por Luciana Domingos. Produção musical e arranjos por Dominik.'
     }
   }
 ];

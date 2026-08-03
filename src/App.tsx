@@ -37,12 +37,21 @@ export default function App() {
             
             // If saved audioUrl is an expired blob: string, revert to initSong.audioUrl
             const isValidSavedUrl = found.audioUrl && !found.audioUrl.startsWith('blob:');
-            
+            const isLegacyInvictoCover = initSong.id === 'codigo-invicto' && (
+              !found.coverUrl || 
+              found.coverUrl.includes('cover_codigo_supremo') || 
+              found.coverUrl.includes('LUCIANA') || 
+              found.coverUrl.includes('Luciana')
+            );
+
             return {
               ...initSong,
+              ...found,
+              coverUrl: isLegacyInvictoCover ? initSong.coverUrl : (found.coverUrl || initSong.coverUrl),
               audioUrl: isValidSavedUrl ? found.audioUrl : initSong.audioUrl,
               customAudioName: found.customAudioName,
               hasCustomAudio: Boolean(found.hasCustomAudio),
+              lyricsSnippet: found.lyricsSnippet || initSong.lyricsSnippet,
               technicalSheet: {
                 ...initSong.technicalSheet,
                 ...(found.technicalSheet || {})
@@ -266,6 +275,10 @@ export default function App() {
       }
       return [songToAdd, ...prev];
     });
+
+    if (selectedSongModal && selectedSongModal.id === songToAdd.id) {
+      setSelectedSongModal(songToAdd);
+    }
   };
 
   const handleOpenLicensingForSong = (song?: Song | null) => {
@@ -315,6 +328,10 @@ export default function App() {
             setEditingSong(null);
             setIsAddSongOpen(true);
           }}
+          onEditSong={(song) => {
+            setEditingSong(song);
+            setIsAddSongOpen(true);
+          }}
         />
 
         <Composer />
@@ -344,6 +361,12 @@ export default function App() {
         onUpdateAudio={handleUpdateSongAudio}
         onResetAudio={handleResetSongAudio}
         isAuthorMode={isAuthorMode}
+        onEditSong={(song) => {
+          setSelectedSongModal(null);
+          setEditingSong(song);
+          setIsAddSongOpen(true);
+        }}
+        onSaveSong={handleSaveNewSong}
       />
 
       {/* TECHNICAL SHEET MODAL */}

@@ -12,6 +12,7 @@ interface CatalogProps {
   setSearchTerm: (term: string) => void;
   isAuthorMode?: boolean;
   onAddNewSong?: () => void;
+  onEditSong?: (song: Song) => void;
 }
 
 export const Catalog: React.FC<CatalogProps> = ({
@@ -22,7 +23,8 @@ export const Catalog: React.FC<CatalogProps> = ({
   searchTerm,
   setSearchTerm,
   isAuthorMode,
-  onAddNewSong
+  onAddNewSong,
+  onEditSong
 }) => {
   const [selectedGenre, setSelectedGenre] = useState<string>('Todos');
   const [selectedMood, setSelectedMood] = useState<string>('Todos');
@@ -173,6 +175,7 @@ export const Catalog: React.FC<CatalogProps> = ({
                 onViewTechnicalSheet={onViewTechnicalSheet}
                 onUpdateAudio={onUpdateAudio}
                 isAuthorMode={isAuthorMode}
+                onEditSong={onEditSong}
               />
             ))}
           </div>

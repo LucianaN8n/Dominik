@@ -1,6 +1,6 @@
 import React from 'react';
 import { Song } from '../types';
-import { Info, FileSpreadsheet, ExternalLink, Radio } from 'lucide-react';
+import { Info, FileSpreadsheet, ExternalLink, Edit3 } from 'lucide-react';
 
 interface SongCardProps {
   song: Song;
@@ -8,6 +8,7 @@ interface SongCardProps {
   onViewTechnicalSheet?: (song: Song) => void;
   onUpdateAudio?: (songId: string, newAudioUrl: string, file?: File | Blob, fileName?: string) => void;
   isAuthorMode?: boolean;
+  onEditSong?: (song: Song) => void;
 }
 
 const SpotifyIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
@@ -20,7 +21,8 @@ export const SongCard: React.FC<SongCardProps> = ({
   song,
   onViewDetails,
   onViewTechnicalSheet,
-  isAuthorMode
+  isAuthorMode,
+  onEditSong
 }) => {
   return (
     <div className="bg-[#111111] border border-[#222222] border-l-2 border-l-[#C5A059] hover:border-[#C5A059] transition-all duration-300 flex flex-col group hover:bg-[#151515] shadow-xl">
@@ -111,8 +113,8 @@ export const SongCard: React.FC<SongCardProps> = ({
           </div>
         </div>
 
-        {/* BUTTONS: FICHA TÉCNICA, DETALHES */}
-        <div className="grid grid-cols-2 gap-2 pt-3 border-t border-[#222222]">
+        {/* BUTTONS: FICHA TÉCNICA, DETALHES, EDITAR */}
+        <div className={`grid ${isAuthorMode && onEditSong ? 'grid-cols-3' : 'grid-cols-2'} gap-2 pt-3 border-t border-[#222222]`}>
           <button
             onClick={() => onViewTechnicalSheet ? onViewTechnicalSheet(song) : onViewDetails(song)}
             className="py-2.5 px-2 border border-[#C5A059] bg-[#C5A059]/15 hover:bg-[#C5A059] text-[#C5A059] hover:text-black text-[10px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-md"
@@ -129,6 +131,17 @@ export const SongCard: React.FC<SongCardProps> = ({
             <Info className="w-3.5 h-3.5 text-[#C5A059] shrink-0" />
             <span>Detalhes</span>
           </button>
+
+          {isAuthorMode && onEditSong && (
+            <button
+              onClick={() => onEditSong(song)}
+              className="py-2.5 px-2 border border-[#C5A059] bg-[#C5A059] hover:bg-white text-black text-[10px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-md col-span-1"
+              title="Editar Obra e Letra Completa"
+            >
+              <Edit3 className="w-3.5 h-3.5 shrink-0" />
+              <span>Editar</span>
+            </button>
+          )}
         </div>
       </div>
     </div>

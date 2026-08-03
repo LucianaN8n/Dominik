@@ -29,6 +29,10 @@ export interface Song {
   artist?: string;
   mood: string[];
   suggestedArtists: string[];
+  suggestedArtistsNational?: string[];
+  suggestedArtistsInternational?: string[];
+  instruments?: string[];
+  tags?: string[];
   coverUrl: string;
   audioUrl?: string;
   history: string;
@@ -37,6 +41,7 @@ export interface Song {
   bpm: number;
   key: string;
   commercialPotential: string;
+  catalogDescription?: string;
   lyricsSnippet: string;
   registrationStatus: string;
   iswcCode?: string;
