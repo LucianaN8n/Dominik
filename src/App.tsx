@@ -47,14 +47,29 @@ export default function App() {
             return {
               ...initSong,
               ...found,
+              // Official metadata updates take priority over stale localStorage cache
+              bpm: initSong.bpm,
+              key: initSong.key,
+              genre: initSong.genre,
+              composer: initSong.composer,
+              mood: initSong.mood,
+              instruments: initSong.instruments || found.instruments,
+              tags: initSong.tags || found.tags,
+              suggestedArtists: initSong.suggestedArtists,
+              suggestedArtistsNational: initSong.suggestedArtistsNational,
+              suggestedArtistsInternational: initSong.suggestedArtistsInternational,
+              catalogDescription: initSong.catalogDescription || found.catalogDescription,
+              isrcCode: initSong.isrcCode !== undefined ? initSong.isrcCode : found.isrcCode,
+              upcCode: initSong.upcCode !== undefined ? initSong.upcCode : found.upcCode,
+              iswcCode: initSong.iswcCode !== undefined ? initSong.iswcCode : found.iswcCode,
               coverUrl: isLegacyInvictoCover ? initSong.coverUrl : (found.coverUrl || initSong.coverUrl),
               audioUrl: isValidSavedUrl ? found.audioUrl : initSong.audioUrl,
               customAudioName: found.customAudioName,
               hasCustomAudio: Boolean(found.hasCustomAudio),
-              lyricsSnippet: found.lyricsSnippet || initSong.lyricsSnippet,
+              lyricsSnippet: initSong.lyricsSnippet || found.lyricsSnippet,
               technicalSheet: {
+                ...found.technicalSheet,
                 ...initSong.technicalSheet,
-                ...(found.technicalSheet || {})
               }
             };
           });
