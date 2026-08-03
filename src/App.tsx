@@ -58,8 +58,29 @@ export default function App() {
               }
             };
           });
-          const customAdded = parsed.filter((p: Song) => p.id && !INITIAL_SONGS.some(i => i.id === p.id));
-          return [...merged, ...customAdded];
+          const norm = (str?: string) => str ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() : "";
+          
+          const customAdded = parsed.filter((p: Song) => {
+            if (!p.id) return false;
+            // Filter out by ID
+            if (INITIAL_SONGS.some(i => i.id === p.id)) return false;
+            // Filter out by normalized title (e.g. "codigo invicto" matching "Código Invicto")
+            if (INITIAL_SONGS.some(i => norm(i.title) === norm(p.title))) return false;
+            return true;
+          });
+
+          // Also deduplicate customAdded entries amongst themselves
+          const uniqueCustom: Song[] = [];
+          const seenTitles = new Set<string>();
+          for (const song of customAdded) {
+            const key = norm(song.title);
+            if (key && !seenTitles.has(key)) {
+              seenTitles.add(key);
+              uniqueCustom.push(song);
+            }
+          }
+
+          return [...merged, ...uniqueCustom];
         }
       }
     } catch (err) {
